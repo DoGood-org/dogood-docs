@@ -24,14 +24,11 @@ features:
     details: конкретні API-контракти
     link: /endpoints/tasks/create-task
   - title: API Swagger
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    details: посилання на документацію Swagger 
 ---
 
 ---
 
-1. **Architecture** — загальна логіка системи
-2. **Entities** — моделі та сутності
-3. **Endpoints** — конкретні API-контракти
 # Project Documentation
 
 Ця документація описує:
@@ -48,5 +45,5 @@ features:
 - [Сутності](/entities/task)
 - [Ендпоінти](/endpoints/tasks/create-task)
 <!-- - [Conventions](/conventions/response-format) -->
-- [API Reference](/api-reference/openapi)
+<!-- - [API Reference](/api-reference/openapi) -->
 
