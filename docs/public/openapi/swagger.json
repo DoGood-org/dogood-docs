@@ -2388,6 +2388,7 @@
     "/reviews/admin/all": {
       "get": {
         "summary": "Get all reviews (Admin/Moderator only)",
+        "description": "View reviews across all types and statuses.",
         "tags": [
           "Reviews"
         ],
@@ -2443,6 +2444,68 @@
         }
       }
     },
+    "/reviews/admin/{id}/status": {
+      "patch": {
+        "summary": "Moderate a review status (Admin/Moderator only)",
+        "description": "Change review status to APPROVED or REJECTED.",
+        "tags": [
+          "Reviews"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Review ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "APPROVED",
+                      "REJECTED"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormattedReview"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Admin/Moderator rights required"
+          }
+        }
+      }
+    },
     "/reviews/{id}": {
       "get": {
         "summary": "Get specific review by ID",
@@ -2473,8 +2536,8 @@
         }
       },
       "patch": {
-        "summary": "Update review (Author only)",
-        "description": "Status resets to PENDING upon update.",
+        "summary": "Update review rating/comment (Author only)",
+        "description": "Automatically resets status to PENDING for re-moderation.",
         "tags": [
           "Reviews"
         ],
@@ -2505,7 +2568,7 @@
         },
         "responses": {
           "200": {
-            "description": "Updated and sent to moderation",
+            "description": "Updated and status reset to PENDING",
             "content": {
               "application/json": {
                 "schema": {
