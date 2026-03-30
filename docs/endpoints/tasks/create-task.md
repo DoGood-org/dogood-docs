@@ -49,11 +49,36 @@
 
 ## Поля
 
-| Поле           | Тип    | Обов'язкове | Опис        |
-| -------------- | ------ | :---------: | ----------- |
-| title          | string |     так     | Назва       |
-| description    | string |     ні      | Опис        |
-| organizationId | string |     ні      | Організація |
+| Поле           | Тип                                 | Обов'язкове | Опис                                                      |
+| -------------- | ----------------------------------- | :---------: | --------------------------------------------------------- |
+| title          | string                              |     так     | Назва. Мінімум 1 символ                                   |
+| description    | string                              |     так     | Опис. Мінімум 1 символ                                    |
+| picture        | string (URL)                        |     ні      | URL зображення                                            |
+| isOrganization | boolean                             |     так     | Чи створюється задача від організації                     |
+| organizationId | string (UUID)                       |   умовно    | ID організації. Обов'язкове, якщо `isOrganization = true` |
+| startDate      | string (ISO date-time)              |     так     | Дата початку (ISO формат)                                 |
+| startTime      | string (ISO date-time)              |     так     | Час початку (ISO формат)                                  |
+| endDate        | string (ISO date-time)              |     ні      | Дата завершення                                           |
+| location       | object { lat: number, lng: number } |     ні      | Геолокація. Якщо передано — обов'язкові `lat` і `lng`     |
+| locationName   | string                              |     ні      | Назва локації                                             |
+| amount         | number                              |     ні      | Необхідна сума                                            |
+| currency       | string                              |     ні      | Валюта                                                    |
+| requirements   | string                              |     ні      | Вимоги                                                    |
+| categories     | CategoryType[]                      |     так     | Масив категорій (мінімум 1)                               |
+
+
+## ⚠️ Важливі правила (валідація)
+- `title`, `description` → не можуть бути пустими
+- `picture` → має бути валідний URL
+- `startDate`, startTime, endDate → ISO datetime
+- `categories` → мінімум 1 елемент
+
+## 🔥 Умовна логіка:
+- якщо isOrganization = true  
+👉 organizationId обов'язковий
+- якщо isOrganization = false  
+👉 organizationId не можна передавати
+
 
 ## Що робить бекенд
 1. Валідовує body
