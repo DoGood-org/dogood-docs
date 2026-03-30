@@ -26,10 +26,6 @@
     },
     "servers": {
       "0": {
-        "url": "https://api.example.com",
-        "description": "Production server"
-      },
-      "1": {
         "url": "http://localhost:3000",
         "description": "Local development server"
       }
@@ -2158,8 +2154,7 @@
     },
     "/reviews/users": {
       "post": {
-        "summary": "Create user-to-user review",
-        "description": "Creates a review from the authenticated user to another user.\nThe author cannot review themselves.\n",
+        "summary": "Create a user-to-user review",
         "tags": [
           "Reviews"
         ],
@@ -2180,34 +2175,55 @@
         },
         "responses": {
           "201": {
-            "description": "Review created successfully",
+            "description": "Created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewResponseWrapper"
+                  "$ref": "#/components/schemas/FormattedReview"
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad request (for example, user tries to review themselves)"
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
           "409": {
-            "description": "User has already left a review for this user"
-          },
-          "500": {
-            "description": "Internal server error"
+            "description": "User has already left a review for this target"
+          }
+        }
+      }
+    },
+    "/reviews/users/{id}": {
+      "get": {
+        "summary": "Get approved reviews ABOUT a user",
+        "tags": [
+          "Reviews"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Target User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewsListResponseWrapper"
+                }
+              }
+            }
           }
         }
       }
     },
     "/reviews/organizations": {
       "post": {
-        "summary": "Create user-to-organization review",
-        "description": "Creates a review from the authenticated user to an organization.\n",
+        "summary": "Create a user-to-organization review",
         "tags": [
           "Reviews"
         ],
@@ -2228,37 +2244,52 @@
         },
         "responses": {
           "201": {
-            "description": "Review created successfully",
+            "description": "Created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewResponseWrapper"
+                  "$ref": "#/components/schemas/FormattedReview"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "404": {
-            "description": "Organization not found"
-          },
-          "409": {
-            "description": "User has already left a review for this organization"
-          },
-          "500": {
-            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/reviews/organizations/{id}": {
+      "get": {
+        "summary": "Get approved reviews ABOUT an organization",
+        "tags": [
+          "Reviews"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Target Organization ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of organization reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewsListResponseWrapper"
+                }
+              }
+            }
           }
         }
       }
     },
     "/reviews/platform": {
       "post": {
-        "summary": "Create user-to-platform review",
-        "description": "Creates a review from the authenticated user about the platform.\nPlatform is identified by a server-side configuration (PLATFORM_ID).\n",
+        "summary": "Create a user-to-platform review",
         "tags": [
           "Reviews"
         ],
@@ -2279,37 +2310,39 @@
         },
         "responses": {
           "201": {
-            "description": "Review created successfully",
+            "description": "Created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewResponseWrapper"
+                  "$ref": "#/components/schemas/FormattedReview"
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "404": {
-            "description": "Platform not configured or not found"
-          },
-          "409": {
-            "description": "User has already left a review for the platform"
-          },
-          "500": {
-            "description": "Internal server error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get approved platform reviews",
+        "tags": [
+          "Reviews"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of platform reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewsListResponseWrapper"
+                }
+              }
+            }
           }
         }
       }
     },
     "/reviews/{taskId}/users": {
       "post": {
-        "summary": "Create task-related user review (host → participant)",
-        "description": "Creates a review from the task host to a task participant.\nOnly the host of the task is allowed to create such reviews.\n",
+        "summary": "Host-to-participant task review",
         "tags": [
           "Reviews"
         ],
@@ -2324,9 +2357,8 @@
             "name": "taskId",
             "required": true,
             "schema": {
-              "type": "integer"
-            },
-            "description": "Task ID"
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -2341,40 +2373,79 @@
         },
         "responses": {
           "201": {
-            "description": "Review created successfully",
+            "description": "Created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewResponseWrapper"
+                  "$ref": "#/components/schemas/FormattedReview"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/reviews/admin/all": {
+      "get": {
+        "summary": "Get all reviews (Admin/Moderator only)",
+        "tags": [
+          "Reviews"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "user",
+                "organization",
+                "platform"
+              ]
+            }
           },
-          "400": {
-            "description": "Bad request (for example, host tries to review themselves)"
+          {
+            "in": "query",
+            "name": "target_id",
+            "schema": {
+              "type": "string"
+            }
           },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Only the host of the task can leave reviews for participants"
-          },
-          "404": {
-            "description": "Task not found"
-          },
-          "409": {
-            "description": "User has already left a review for this user in this context"
-          },
-          "500": {
-            "description": "Internal server error"
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "APPROVED",
+                "REJECTED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Complete reviews list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewsListResponseWrapper"
+                }
+              }
+            }
           }
         }
       }
     },
     "/reviews/{id}": {
       "get": {
-        "summary": "Get review by ID",
-        "description": "Returns a single review by its ID.",
+        "summary": "Get specific review by ID",
         "tags": [
           "Reviews"
         ],
@@ -2385,78 +2456,25 @@
             "required": true,
             "schema": {
               "type": "integer"
-            },
-            "description": "Review ID"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Review found",
+            "description": "Review data",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewResponseWrapper"
+                  "$ref": "#/components/schemas/FormattedReview"
                 }
               }
             }
-          },
-          "404": {
-            "description": "Review not found"
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
       },
       "patch": {
-        "summary": "Update review by ID",
-        "description": "Partially updates an existing review.\nOnly provided fields will be updated.\n",
-        "tags": [
-          "Reviews"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Review ID"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ReviewUpdateInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Review updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ReviewUpdatedResponseWrapper"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Review not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete review by ID",
-        "description": "Deletes an existing review by ID.",
+        "summary": "Update review (Author only)",
+        "description": "Status resets to PENDING upon update.",
         "tags": [
           "Reviews"
         ],
@@ -2472,36 +2490,41 @@
             "required": true,
             "schema": {
               "type": "integer"
-            },
-            "description": "Review ID"
+            }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewUpdateInput"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Review deleted successfully",
+            "description": "Updated and sent to moderation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteReviewResponse"
+                  "$ref": "#/components/schemas/FormattedReview"
                 }
               }
             }
-          },
-          "404": {
-            "description": "Review not found"
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
-      }
-    },
-    "/reviews/by-user/{id}": {
-      "get": {
-        "summary": "Get all reviews written by a user",
-        "description": "Returns all reviews for a given user ID (authorUserId).\n",
+      },
+      "delete": {
+        "summary": "Delete review (Author or Admin)",
         "tags": [
           "Reviews"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "parameters": [
           {
@@ -2509,93 +2532,30 @@
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string"
-            },
-            "description": "User ID"
+              "type": "integer"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Reviews found",
+            "description": "Deleted successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserReviewsResponseWrapper"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "REVIEW_DELETED"
+                    }
+                  }
                 }
               }
             }
-          },
-          "404": {
-            "description": "User not found or no reviews"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/reviews/all": {
-      "get": {
-        "summary": "Get reviews with filters",
-        "description": "Returns a list of reviews filtered by type, target and status.\nNon-admin users only see APPROVED reviews.\n",
-        "tags": [
-          "Reviews"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "type",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "user",
-                "organisation",
-                "platform"
-              ]
-            },
-            "description": "Entity type the reviews are about."
-          },
-          {
-            "in": "query",
-            "name": "target_id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Target entity ID. Required when `type` is `user` or `organisation`.\n"
-          },
-          {
-            "in": "query",
-            "name": "status",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "PENDING",
-                "APPROVED",
-                "REJECTED"
-              ]
-            },
-            "description": "Review moderation status (admins/moderators only)."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Reviews list",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ReviewsListResponseWrapper"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (for example, missing target_id when required)"
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
       }
@@ -4091,20 +4051,16 @@
         ],
         "properties": {
           "targetUserId": {
-            "type": "string",
-            "description": "ID of the user being reviewed"
+            "type": "string"
           },
           "rating": {
             "type": "integer",
-            "format": "int32",
             "minimum": 1,
-            "maximum": 5,
-            "description": "Rating value"
+            "maximum": 5
           },
           "comment": {
             "type": "string",
-            "nullable": true,
-            "description": "Optional comment for the review"
+            "nullable": true
           }
         }
       },
@@ -4116,20 +4072,16 @@
         ],
         "properties": {
           "targetOrganizationId": {
-            "type": "string",
-            "description": "ID of the organization being reviewed"
+            "type": "string"
           },
           "rating": {
             "type": "integer",
-            "format": "int32",
             "minimum": 1,
-            "maximum": 5,
-            "description": "Rating value"
+            "maximum": 5
           },
           "comment": {
             "type": "string",
-            "nullable": true,
-            "description": "Optional comment for the review"
+            "nullable": true
           }
         }
       },
@@ -4141,60 +4093,6 @@
         "properties": {
           "rating": {
             "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "maximum": 5,
-            "description": "Rating value"
-          },
-          "comment": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional comment for the review"
-          }
-        }
-      },
-      "ReviewUpdateInput": {
-        "type": "object",
-        "description": "Partial update of a review.",
-        "properties": {
-          "authorType": {
-            "type": "string",
-            "enum": [
-              "USER",
-              "ORGANIZATION"
-            ]
-          },
-          "authorUserId": {
-            "type": "string",
-            "nullable": true
-          },
-          "authorOrganizationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "targetType": {
-            "type": "string",
-            "enum": [
-              "USER",
-              "ORGANIZATION",
-              "PLATFORM"
-            ]
-          },
-          "targetUserId": {
-            "type": "string",
-            "nullable": true
-          },
-          "targetOrganizationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "targetPlatformId": {
-            "type": "string",
-            "nullable": true
-          },
-          "rating": {
-            "type": "integer",
-            "format": "int32",
             "minimum": 1,
             "maximum": 5
           },
@@ -4204,16 +4102,43 @@
           }
         }
       },
-      "Review": {
+      "ReviewUpdateInput": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ReviewAuthor": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "FormattedReview": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
           },
           "rating": {
-            "type": "integer",
-            "format": "int32"
+            "type": "integer"
           },
           "comment": {
             "type": "string",
@@ -4227,14 +4152,6 @@
               "HOST"
             ]
           },
-          "authorUserId": {
-            "type": "string",
-            "nullable": true
-          },
-          "authorOrganizationId": {
-            "type": "string",
-            "nullable": true
-          },
           "targetType": {
             "type": "string",
             "enum": [
@@ -4242,23 +4159,6 @@
               "ORGANIZATION",
               "PLATFORM"
             ]
-          },
-          "targetUserId": {
-            "type": "string",
-            "nullable": true
-          },
-          "targetOrganizationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "platformId": {
-            "type": "string",
-            "nullable": true
-          },
-          "taskId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           },
           "status": {
             "type": "string",
@@ -4272,67 +4172,8 @@
             "type": "string",
             "format": "date-time"
           },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "ReviewResponseWrapper": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "review": {
-                "$ref": "#/components/schemas/Review"
-              }
-            }
-          }
-        }
-      },
-      "ReviewUpdatedResponseWrapper": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success"
-          },
-          "message": {
-            "type": "string",
-            "example": "Review was updated successfully"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "updatedReview": {
-                "$ref": "#/components/schemas/Review"
-              }
-            }
-          }
-        }
-      },
-      "UserReviewsResponseWrapper": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "reviews": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Review"
-                }
-              }
-            }
+          "author": {
+            "$ref": "#/components/schemas/ReviewAuthor"
           }
         }
       },
@@ -4343,29 +4184,20 @@
             "type": "string",
             "example": "success"
           },
+          "code": {
+            "type": "string",
+            "example": "REVIEWS_RETRIEVED"
+          },
           "data": {
             "type": "object",
             "properties": {
               "reviews": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Review"
+                  "$ref": "#/components/schemas/FormattedReview"
                 }
               }
             }
-          }
-        }
-      },
-      "DeleteReviewResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "example": "success"
-          },
-          "message": {
-            "type": "string",
-            "example": "Review was deleted successfully"
           }
         }
       },
@@ -4849,7 +4681,7 @@
     },
     {
       "name": "Reviews",
-      "description": "Reviews management"
+      "description": "Reviews management operations"
     }
   ]
 }
