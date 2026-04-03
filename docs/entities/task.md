@@ -18,22 +18,22 @@
 
 ### Поля
 
-| Поле           | Тип                            | Обов'язковість | Опис                                         | Примітка                                  | Зберігається в БД |
-| -------------- | ------------------------------ | -------------- | -------------------------------------------- | ----------------------------------------- | ----------------: |
-| title          | string                         | так            | Назва                                        |                                           |                 ✅ |
-| isOrganization | boolean                        | так            | Ознака, що таска створюється від організації | використовується в логіці бекенду         |                 ❌ |
-| organizationId | string                         | умовно         | ID організації                               | обов'язкове, якщо `isOrganization = true` |                 ❌ |
-| description    | string                         | ні             | Опис                                         |                                           |                 ✅ |
-| picture        | string                         | ні             | URL зображення                               |                                           |                 ✅ |
-| startDate      | string \| DateTime             | так            | Дата початку                                 |                                           |                 ✅ |
-| startTime      | string \| DateTime             | так            | Час початку                                  |                                           |                 ✅ |
-| endDate        | string \| DateTime             | ні             | Дата завершення                              |                                           |                 ✅ |
-| location       | `{ lat: number; lng: number }` | ні             | Координати                                   | у БД зберігається як `geography`          |                 ✅ |
-| locationName   | string                         | ні             | Назва локації                                |                                           |                 ✅ |
-| amount         | number                         | ні             | Необхідна сума                               |                                           |                 ✅ |
-| currency       | string                         | ні             | Валюта                                       |                                           |                 ✅ |
-| requirements   | string                         | ні             | Вимоги                                       |                                           |                 ✅ |
-| categories     | CategoryType[]                 | так            | Категорії                                    | формат зберігання треба уточнювати окремо |                 ✅ |
+| Поле           | Тип                                            | Обов'язковість | Опис                                         | Примітка                                  | Зберігається в БД |
+| -------------- | ---------------------------------------------- | -------------- | -------------------------------------------- | ----------------------------------------- | ----------------: |
+| title          | string                                         | так            | Назва                                        |                                           |                 ✅ |
+| isOrganization | boolean                                        | так            | Ознака, що таска створюється від організації | використовується в логіці бекенду         |                 ❌ |
+| organizationId | string                                         | умовно         | ID організації                               | обов'язкове, якщо `isOrganization = true` |                 ❌ |
+| description    | string                                         | ні             | Опис                                         |                                           |                 ✅ |
+| picture        | string                                         | ні             | URL зображення                               |                                           |                 ✅ |
+| startDate      | string \| DateTime                             | так            | Дата початку                                 |                                           |                 ✅ |
+| startTime      | string \| DateTime                             | так            | Час початку                                  |                                           |                 ✅ |
+| endDate        | string \| DateTime                             | ні             | Дата завершення                              |                                           |                 ✅ |
+| location       | `{ lat: number; lng: number }`                 | ні             | Координати                                   | у БД зберігається як `geography`          |                 ✅ |
+| locationName   | string                                         | ні             | Назва локації                                |                                           |                 ✅ |
+| amount         | number                                         | ні             | Необхідна сума                               |                                           |                 ✅ |
+| currency       | string                                         | ні             | Валюта                                       |                                           |                 ✅ |
+| requirements   | string                                         | ні             | Вимоги                                       |                                           |                 ✅ |
+| categories     | [CategoryType](/constants/task#categorytype)[] | так            | Категорії                                    | формат зберігання треба уточнювати окремо |                 ✅ |
 
 ### Умовні правила
 - `organizationId` є обов'язковим, якщо `isOrganization = true`
@@ -77,27 +77,27 @@
 
 ### Поля
 
-| Поле          | Тип            | Nullable | Опис                 | Примітка                        |
-| ------------- | -------------- | -------: | -------------------- | ------------------------------- |
-| id            | string         |       ні | Унікальний ID        | генерується в БД                |
-| title         | string         |       ні | Назва                |                                 |
-| description   | string         |      так | Опис                 |                                 |
-| picture       | string         |      так | URL зображення       |                                 |
-| status        | TaskStatus     |       ні | Статус               | за замовченням `PENDING`        |
-| hostId        | number         |       ні | FK на таблицю `Host` | визначається бекендом           |
-| startDate     | DateTime       |       ні | Дата початку         |                                 |
-| startTime     | DateTime       |       ні | Час початку          |                                 |
-| endDate       | DateTime       |      так | Дата завершення      |                                 |
-| locationId    | number         |      так | ID локації           | може генеруватися БД / бекендом |
-| location      | geography      |      так | Координати           | PostGIS / geography             |
-| locationName  | string         |      так | Назва локації        |                                 |
-| amount        | number         |      так | Необхідна сума       |                                 |
-| currentAmount | number         |      так | Поточна зібрана сума |                                 |
-| currency      | string         |      так | Валюта               |                                 |
-| requirements  | string         |      так | Вимоги               |                                 |
-| categories    | CategoryType[] |   ні/так | Категорії            | залежить від реальної схеми     |
-| createdAt     | DateTime       |       ні | Дата створення       | генерується в БД                |
-| updatedAt     | DateTime       |       ні | Дата оновлення       | генерується в БД                |
+| Поле          | Тип                                            | Nullable | Опис                 | Примітка                        |
+| ------------- | ---------------------------------------------- | -------: | -------------------- | ------------------------------- |
+| id            | string                                         |       ні | Унікальний ID        | генерується в БД                |
+| title         | string                                         |       ні | Назва                |                                 |
+| description   | string                                         |      так | Опис                 |                                 |
+| picture       | string                                         |      так | URL зображення       |                                 |
+| status        | [TaskStatus](/constants/task#taskstatus)       |       ні | Статус               | за замовченням `PENDING`        |
+| hostId        | number                                         |       ні | FK на таблицю `Host` | визначається бекендом           |
+| startDate     | DateTime                                       |       ні | Дата початку         |                                 |
+| startTime     | DateTime                                       |       ні | Час початку          |                                 |
+| endDate       | DateTime                                       |      так | Дата завершення      |                                 |
+| locationId    | number                                         |      так | ID локації           | може генеруватися БД / бекендом |
+| location      | geography                                      |      так | Координати           | PostGIS / geography             |
+| locationName  | string                                         |      так | Назва локації        |                                 |
+| amount        | number                                         |      так | Необхідна сума       |                                 |
+| currentAmount | number                                         |      так | Поточна зібрана сума |                                 |
+| currency      | string                                         |      так | Валюта               |                                 |
+| requirements  | string                                         |      так | Вимоги               |                                 |
+| categories    | [CategoryType](/constants/task#categorytype)[] |   ні/так | Категорії            | залежить від реальної схеми     |
+| createdAt     | DateTime                                       |       ні | Дата створення       | генерується в БД                |
+| updatedAt     | DateTime                                       |       ні | Дата оновлення       | генерується в БД                |
 
 ### Що НЕ входить напряму в DB Model
 - `isOrganization`
@@ -129,7 +129,7 @@
 | title         | string                                                       | так            | Назва                        |                            |
 | description   | string                                                       | ні             | Опис                         |                            |
 | picture       | string                                                       | ні             | URL зображення               |                            |
-| status        | TaskStatus                                                   | так            | Статус                       |                            |
+| status        | [TaskStatus](/constants/task#taskstatus)                     | так            | Статус                       |                            |
 | startDate     | string                                                       | так            | Дата початку                 | ISO string                 |
 | startTime     | string                                                       | так            | Час початку                  | ISO string                 |
 | endDate       | string                                                       | ні             | Дата завершення              | ISO string                 |
@@ -139,7 +139,7 @@
 | currentAmount | number                                                       | ні             | Поточна сума                 |                            |
 | currency      | string                                                       | ні             | Валюта                       |                            |
 | requirements  | string                                                       | ні             | Вимоги                       |                            |
-| categories    | CategoryType[]                                               | так/ні         | Категорії                    | залежить від endpoint      |
+| categories    | [CategoryType](/constants/task#categorytype)[]               | так/ні         | Категорії                    | залежить від endpoint      |
 | host          | `{ user: User \| null; organization: Organization \| null }` | так            | Хост таски                   | relation field             |
 | joinedUsers   | User[]                                                       | ні             | Користувачі, які приєдналися | relation field             |
 | createdAt     | string                                                       | так            | Дата створення               | ISO string                 |
