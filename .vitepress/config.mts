@@ -55,33 +55,41 @@ export default withMermaid(
           {
             text: "Ендпоінти",
             items: [
-              {
-                text: "Auth",
-                items: [
-                  { text: "POST /auth/login", link: "/endpoints" },
-                  { text: "POST /auth/refresh", link: "/endpoints" },
-                  {
-                    text: "GET /users/current",
-                    link: "/endpoints/users",
-                  },
-                ],
-              },
+              // {
+              //   text: "Auth",
+              //   items: [
+              //     { text: "POST /auth/login", link: "/endpoints" },
+              //     { text: "POST /auth/refresh", link: "/endpoints" },
+              //     {
+              //       text: "GET /users/current",
+              //       link: "/endpoints/users",
+              //     },
+              //   ],
+              // },
               {
                 text: "Tasks",
                 items: [
-                  { text: "POST /tasks", link: "/endpoints/tasks/create-task" },
+                  { text: "GET /task", link: "/endpoints/tasks/get-all-tasks" },
+                  { text: "POST /task", link: "/endpoints/tasks/create-task" },
+                  { text: "PATCH /task/:id", link: "/endpoints/tasks/update-task" }
                 ],
               },
             ],
           },
           {
-            text: "Conventions",
+            text: "Constants",
             items: [
-              { text: "Response Format", link: "/conventions/response-format" },
-              { text: "Error Format", link: "/conventions/error-format" },
-              { text: "Validation", link: "/conventions/validation" },
-            ],
-          },
+              { text: "Tasks", link: "/constants/task" }
+            ]
+          }
+          // {
+          //   text: "Conventions",
+          //   items: [
+          //     { text: "Response Format", link: "/conventions/response-format" },
+          //     { text: "Error Format", link: "/conventions/error-format" },
+          //     { text: "Validation", link: "/conventions/validation" },
+          //   ],
+          // },
           // {
           //   text: "API Reference",
           //   items: [
