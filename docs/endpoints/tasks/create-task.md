@@ -49,22 +49,22 @@
 
 ## Поля
 
-| Поле           | Тип                                              | Обов'язкове | Опис                                                      |
-| -------------- | ------------------------------------------------ | :---------: | --------------------------------------------------------- |
-| title          | string                                           |     так     | Назва. Мінімум 1 символ                                   |
-| description    | string                                           |     так     | Опис. Мінімум 1 символ                                    |
-| picture        | string (URL)                                     |     ні      | URL зображення                                            |
-| isOrganization | boolean                                          |     так     | Чи створюється задача від організації                     |
-| organizationId | string (UUID)                                    |   умовно    | ID організації. Обов'язкове, якщо `isOrganization = true` |
-| startDate      | string (ISO date-time)                           |     так     | Дата початку (ISO формат)                                 |
-| startTime      | string (ISO date-time)                           |     так     | Час початку (ISO формат)                                  |
-| endDate        | string (ISO date-time)                           |     ні      | Дата завершення                                           |
-| location       | object { lat: number, lng: number }              |     ні      | Геолокація. Якщо передано — обов'язкові `lat` і `lng`     |
-| locationName   | string                                           |     ні      | Назва локації                                             |
-| amount         | number                                           |     ні      | Необхідна сума                                            |
-| currency       | string                                           |     ні      | Валюта                                                    |
-| requirements   | string                                           |     ні      | Вимоги                                                    |
-| categories     | [CategoryType]((/constants/task#categorytype))[] |     так     | Масив категорій (мінімум 1)                               |
+| Поле           | Тип                                            | Обов'язкове | Опис                                                      |
+| -------------- | ---------------------------------------------- | :---------: | --------------------------------------------------------- |
+| title          | string                                         |     так     | Назва. Мінімум 1 символ                                   |
+| description    | string                                         |     так     | Опис. Мінімум 1 символ                                    |
+| picture        | string (URL)                                   |     ні      | URL зображення                                            |
+| isOrganization | boolean                                        |     так     | Чи створюється задача від організації                     |
+| organizationId | string (UUID)                                  |   умовно    | ID організації. Обов'язкове, якщо `isOrganization = true` |
+| startDate      | string (ISO date-time)                         |     так     | Дата початку (ISO формат)                                 |
+| startTime      | string (ISO date-time)                         |     так     | Час початку (ISO формат)                                  |
+| endDate        | string (ISO date-time)                         |     ні      | Дата завершення                                           |
+| location       | object { lat: number, lng: number }            |     ні      | Геолокація. Якщо передано — обов'язкові `lat` і `lng`     |
+| locationName   | string                                         |     ні      | Назва локації                                             |
+| amount         | number                                         |     ні      | Необхідна сума                                            |
+| currency       | string                                         |     ні      | Валюта                                                    |
+| requirements   | string                                         |     ні      | Вимоги                                                    |
+| categories     | [CategoryType](/constants/task#categorytype)[] |     так     | Масив категорій (мінімум 1)                               |
 
 
 ## ⚠️ Важливі правила (валідація)
