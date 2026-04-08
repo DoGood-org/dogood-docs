@@ -991,9 +991,6 @@
         "responses": {
           "200": {
             "description": "Updated"
-          },
-          "403": {
-            "description": "Only ADMIN can update"
           }
         }
       },
@@ -1025,12 +1022,13 @@
         }
       }
     },
-    "/organization/members": {
+    "/organization/members/invite": {
       "post": {
         "tags": [
           "Members"
         ],
-        "summary": "Add a member directly (ADMIN/MODERATOR only)",
+        "summary": "Invite a user to organization (ADMIN/MODERATOR only)",
+        "description": "Creates a JoinRequest with direction 'FROM_ORGANIZATION'. The user will be notified and must accept the invitation.",
         "security": [
           {
             "cookieAuth": []
@@ -1041,14 +1039,20 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddMemberInput"
+                "$ref": "#/components/schemas/InviteMemberInput"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Added"
+            "description": "Invitation sent successfully"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "409": {
+            "description": "Conflict - User is already a member"
           }
         }
       }
@@ -1059,6 +1063,7 @@
           "Members"
         ],
         "summary": "Update member role (ADMIN only)",
+        "description": "Updates role and notifies the target user.",
         "security": [
           {
             "cookieAuth": []
@@ -1081,12 +1086,52 @@
         }
       }
     },
+    "/organization/members/{userId}": {
+      "delete": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Remove a member from organization",
+        "description": "Deletes the membership record and notifies the user.",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "organizationId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Member removed successfully"
+          }
+        }
+      }
+    },
     "/organization/join-request": {
       "post": {
         "tags": [
           "JoinRequest"
         ],
-        "summary": "Create a join request (senderId from token)",
+        "summary": "Create a join request or invitation",
+        "description": "Used by users to join an org (FROM_USER) or by orgs to invite a user (FROM_ORGANIZATION).",
         "security": [
           {
             "cookieAuth": []
@@ -1104,7 +1149,7 @@
         },
         "responses": {
           "201": {
-            "description": "Request created"
+            "description": "Request created and notification sent"
           }
         }
       }
@@ -1115,6 +1160,7 @@
           "JoinRequest"
         ],
         "summary": "Update join request status",
+        "description": "ACCEPTED status triggers automatic membership creation.",
         "security": [
           {
             "cookieAuth": []
@@ -1132,7 +1178,7 @@
         },
         "responses": {
           "200": {
-            "description": "Status updated"
+            "description": "Status updated (Membership created if ACCEPTED)"
           }
         }
       }
@@ -1142,9 +1188,7 @@
         "tags": [
           "JoinRequest"
         ],
-        "summary": "Get all pending join requests for a specific organization",
-        "description": "Returns a list of pending requests where the organization is the receiver. Accessible only by ADMIN or MODERATOR.",
-        "operationId": "getJoinRequestsForOrganization",
+        "summary": "Get all pending join requests for an organization",
         "security": [
           {
             "cookieAuth": []
@@ -1171,60 +1215,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/organization/join-request/{id}": {
-      "get": {
-        "tags": [
-          "JoinRequest"
-        ],
-        "summary": "Get details of a pending join request",
-        "description": "Returns join request details. Accessible by the sender or organization staff (ADMIN/MODERATOR).",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "description": "UUID of the Join Request"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JoinRequestResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden - You don't have access to this request"
-          },
-          "404": {
-            "description": "Request not found"
           }
         }
       }
@@ -2964,106 +2954,6 @@
           }
         }
       },
-      "LocationInput": {
-        "type": "object",
-        "required": [
-          "country",
-          "region",
-          "city"
-        ],
-        "properties": {
-          "country": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 100
-          },
-          "region": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 100
-          },
-          "city": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 100
-          }
-        }
-      },
-      "Location": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "uuid"
-          },
-          "country": {
-            "type": "string"
-          },
-          "region": {
-            "type": "string",
-            "nullable": true
-          },
-          "city": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "FullOrganizationResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SuccessResponse"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "organization": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "avatar": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "email": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "phoneNumber": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "location": {
-                        "$ref": "#/components/schemas/Location"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        ]
-      },
       "CreateOrganizationInput": {
         "type": "object",
         "required": [
@@ -3088,12 +2978,21 @@
             "format": "uri"
           },
           "location": {
-            "$ref": "#/components/schemas/LocationInput"
+            "type": "object",
+            "properties": {
+              "country": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              }
+            }
           },
           "phoneNumber": {
-            "type": "string",
-            "minLength": 5,
-            "maxLength": 30
+            "type": "string"
           },
           "email": {
             "type": "string",
@@ -3129,7 +3028,7 @@
           }
         }
       },
-      "AddMemberInput": {
+      "InviteMemberInput": {
         "type": "object",
         "required": [
           "userId",
@@ -3185,6 +3084,11 @@
           "direction"
         ],
         "properties": {
+          "senderOrganizationId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "receiverOrganizationId": {
             "type": "string",
             "format": "uuid",
@@ -3254,23 +3158,17 @@
           },
           "sender": {
             "type": "object",
-            "nullable": true,
             "properties": {
               "id": {
                 "type": "string"
               },
-              "email": {
+              "name": {
                 "type": "string"
-              },
-              "profile": {
-                "type": "object",
-                "nullable": true
               }
             }
           },
           "senderOrganization": {
             "type": "object",
-            "nullable": true,
             "properties": {
               "id": {
                 "type": "string"
@@ -3297,6 +3195,41 @@
                     "type": "array",
                     "items": {
                       "$ref": "#/components/schemas/JoinRequestResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "FullOrganizationResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "organization": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "object"
+                      }
                     }
                   }
                 }
@@ -3574,6 +3507,23 @@
                 }
               }
             }
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "country": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
           }
         }
       },
