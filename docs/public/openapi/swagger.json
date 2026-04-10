@@ -990,7 +990,14 @@
         },
         "responses": {
           "200": {
-            "description": "Updated"
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -998,7 +1005,7 @@
         "tags": [
           "Organization"
         ],
-        "summary": "Delete organization (ADMIN/HOST only)",
+        "summary": "Delete organization (ADMIN only)",
         "security": [
           {
             "cookieAuth": []
@@ -1017,7 +1024,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Deleted"
+            "description": "Organization and related data deleted successfully"
           }
         }
       }
@@ -1028,7 +1035,6 @@
           "Members"
         ],
         "summary": "Invite a user to organization (ADMIN/MODERATOR only)",
-        "description": "Creates a JoinRequest with direction 'FROM_ORGANIZATION'. The user will be notified and must accept the invitation.",
         "security": [
           {
             "cookieAuth": []
@@ -1046,13 +1052,7 @@
         },
         "responses": {
           "201": {
-            "description": "Invitation sent successfully"
-          },
-          "403": {
-            "description": "Forbidden - Insufficient permissions"
-          },
-          "409": {
-            "description": "Conflict - User is already a member"
+            "description": "Invitation sent"
           }
         }
       }
@@ -1063,7 +1063,6 @@
           "Members"
         ],
         "summary": "Update member role (ADMIN only)",
-        "description": "Updates role and notifies the target user.",
         "security": [
           {
             "cookieAuth": []
@@ -1082,139 +1081,6 @@
         "responses": {
           "200": {
             "description": "Role updated"
-          }
-        }
-      }
-    },
-    "/organization/members/{userId}": {
-      "delete": {
-        "tags": [
-          "Members"
-        ],
-        "summary": "Remove a member from organization",
-        "description": "Deletes the membership record and notifies the user.",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "organizationId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Member removed successfully"
-          }
-        }
-      }
-    },
-    "/organization/join-request": {
-      "post": {
-        "tags": [
-          "JoinRequest"
-        ],
-        "summary": "Create a join request or invitation",
-        "description": "Used by users to join an org (FROM_USER) or by orgs to invite a user (FROM_ORGANIZATION).",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateJoinRequestInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Request created and notification sent"
-          }
-        }
-      }
-    },
-    "/organization/join-request/status": {
-      "patch": {
-        "tags": [
-          "JoinRequest"
-        ],
-        "summary": "Update join request status",
-        "description": "ACCEPTED status triggers automatic membership creation.",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateJoinRequestStatusInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Status updated (Membership created if ACCEPTED)"
-          }
-        }
-      }
-    },
-    "/organization/{organizationId}/join-requests": {
-      "get": {
-        "tags": [
-          "JoinRequest"
-        ],
-        "summary": "Get all pending join requests for an organization",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "organizationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JoinRequestsListResponse"
-                }
-              }
-            }
           }
         }
       }
@@ -2973,9 +2839,70 @@
             "type": "string",
             "maxLength": 1000
           },
+          "moreInfo": {
+            "type": "string",
+            "maxLength": 2000,
+            "nullable": true
+          },
           "avatar": {
             "type": "string",
             "format": "uri"
+          },
+          "stripeCustomerId": {
+            "type": "string",
+            "example": "cus_Rl9..."
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "location": {
+            "type": "object",
+            "required": [
+              "country",
+              "region",
+              "city"
+            ],
+            "properties": {
+              "country": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "UpdateOrganization": {
+        "type": "object",
+        "properties": {
+          "organizationName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "moreInfo": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "stripeCustomerId": {
+            "type": "string"
           },
           "location": {
             "type": "object",
@@ -2990,39 +2917,138 @@
                 "type": "string"
               }
             }
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
           }
         }
       },
-      "UpdateOrganization": {
-        "type": "object",
-        "properties": {
-          "organizationName": {
-            "type": "string"
+      "FullOrganizationResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessResponse"
           },
-          "description": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "location": {
+          {
             "type": "object",
             "properties": {
-              "country": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "organization": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "moreInfo": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "phoneNumber": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "email": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "avatar": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "stripeCustomerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "region": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "hostId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "nullable": true
+                      },
+                      "tasks": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      },
+                      "members": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/MemberInfo"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "MemberInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "MODERATOR",
+              "MEMBER"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE"
+            ]
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
                 "type": "string"
               },
-              "city": {
+              "name": {
                 "type": "string"
               },
-              "address": {
-                "type": "string"
+              "profile": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                }
               }
             }
           }
@@ -3077,166 +3103,6 @@
             ]
           }
         }
-      },
-      "CreateJoinRequestInput": {
-        "type": "object",
-        "required": [
-          "direction"
-        ],
-        "properties": {
-          "senderOrganizationId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "receiverOrganizationId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "receiverUserId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "direction": {
-            "type": "string",
-            "enum": [
-              "FROM_USER",
-              "FROM_ORGANIZATION"
-            ]
-          }
-        }
-      },
-      "UpdateJoinRequestStatusInput": {
-        "type": "object",
-        "required": [
-          "id",
-          "status"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "ACCEPTED",
-              "REJECTED",
-              "CANCELLED"
-            ]
-          }
-        }
-      },
-      "JoinRequestResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "PENDING",
-              "ACCEPTED",
-              "REJECTED",
-              "CANCELLED"
-            ]
-          },
-          "direction": {
-            "type": "string",
-            "enum": [
-              "FROM_USER",
-              "FROM_ORGANIZATION"
-            ]
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "sender": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              }
-            }
-          },
-          "senderOrganization": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "JoinRequestsListResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SuccessResponse"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "joinRequests": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/JoinRequestResponse"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        ]
-      },
-      "FullOrganizationResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SuccessResponse"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "organization": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        ]
       },
       "CreatePostInput": {
         "type": "object",
@@ -3368,6 +3234,10 @@
                 }
               }
             }
+          },
+          "stripeCustomerId": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3453,11 +3323,8 @@
           "phoneNumber": {
             "type": "string"
           },
-          "paymentOptionIds": {
-            "type": "array",
-            "items": {
-              "type": "integer"
-            }
+          "stripeCustomerId": {
+            "type": "string"
           }
         }
       },
