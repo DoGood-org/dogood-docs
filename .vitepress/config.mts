@@ -13,6 +13,7 @@ export default withMermaid(
 
     themeConfig: {
       siteTitle: "DoGood Project Docs",
+      outline: [2, 4],
       // https://vitepress.dev/reference/default-theme-config
 
       nav: [
@@ -55,17 +56,18 @@ export default withMermaid(
           {
             text: "Ендпоінти",
             items: [
-              // {
-              //   text: "Auth",
-              //   items: [
-              //     { text: "POST /auth/login", link: "/endpoints" },
-              //     { text: "POST /auth/refresh", link: "/endpoints" },
-              //     {
-              //       text: "GET /users/current",
-              //       link: "/endpoints/users",
-              //     },
-              //   ],
-              // },
+              {
+                text: "Auth",
+                items: [
+                  { text: "POST /auth/signup", link: "/endpoints/auth/signup" },
+                  // { text: "POST /auth/login", link: "/endpoints" },
+                  // { text: "POST /auth/refresh", link: "/endpoints" },
+                  // {
+                  //   text: "GET /users/current",
+                  //   link: "/endpoints/users",
+                  // },
+                ],
+              },
               {
                 text: "Tasks",
                 items: [
