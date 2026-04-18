@@ -47,7 +47,7 @@ export default withMermaid(
           {
             text: "Сутності",
             items: [
-              // { text: "User", link: "/entities/user" },
+              { text: "User", link: "/entities/user" },
               { text: "Task", link: "/entities/task" },
               // { text: "Organization", link: "/entities/organization" },
             ],
