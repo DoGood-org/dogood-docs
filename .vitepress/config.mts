@@ -61,8 +61,9 @@ export default withMermaid(
                 text: "Auth",
                 items: [
                   { text: "POST /auth/signup", link: "/endpoints/auth/signup" },
-                  // { text: "POST /auth/login", link: "/endpoints" },
-                  // { text: "POST /auth/refresh", link: "/endpoints" },
+                  { text: "POST /auth/login", link: "/endpoints/auth/login" },
+                  { text: "POST /auth/logout", link: "/endpoints/auth/logout" },
+                  { text: "POST /auth/refresh-token", link: "/endpoints/auth/refresh-token" },
                   // {
                   //   text: "GET /users/current",
                   //   link: "/endpoints/users",
