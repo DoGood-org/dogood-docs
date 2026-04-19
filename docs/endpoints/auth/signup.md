@@ -46,7 +46,7 @@
 
 ## Що пишеться в БД
 - [User](/entities/user#user)
-- [UserSettings]((/entities/user#usersettings))
+- [UserSettings](/entities/user#usersettings)
 
 ## Response
 ```json
