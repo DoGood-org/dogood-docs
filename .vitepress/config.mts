@@ -59,11 +59,18 @@ export default withMermaid(
             items: [
               {
                 text: "Auth",
+                collapsed: true,
                 items: [
                   { text: "POST /auth/signup", link: "/endpoints/auth/signup" },
                   { text: "POST /auth/login", link: "/endpoints/auth/login" },
                   { text: "POST /auth/logout", link: "/endpoints/auth/logout" },
                   { text: "POST /auth/refresh-token", link: "/endpoints/auth/refresh-token" },
+                  {
+                    text: "Verification", items: [
+                      { text: "GET /auth/verify-email/:verificationCode", link: "/endpoints/auth/verify-email" },
+                      { text: "POST /auth/resend-verification", link: "/endpoints/auth/resend-verification" },
+                    ]
+                  },
                   // {
                   //   text: "GET /users/current",
                   //   link: "/endpoints/users",
@@ -72,6 +79,7 @@ export default withMermaid(
               },
               {
                 text: "Tasks",
+                collapsed: true,
                 items: [
                   { text: "GET /task", link: "/endpoints/tasks/get-all-tasks" },
                   { text: "POST /task", link: "/endpoints/tasks/create-task" },

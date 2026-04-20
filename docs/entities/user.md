@@ -95,6 +95,7 @@
 | createdAt | DateTime |     так     | Дата           |
 | expiresAt | DateTime |     так     | Термін         |
 | revoked   | boolean  |     так     | Чи відкликаний |
+| updatedAt | DateTime |     так     | Дата оновлення |
 
 
 ## 📤 User Response DTO
