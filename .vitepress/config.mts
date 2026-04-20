@@ -65,6 +65,7 @@ export default withMermaid(
                   { text: "POST /auth/login", link: "/endpoints/auth/login" },
                   { text: "POST /auth/logout", link: "/endpoints/auth/logout" },
                   { text: "POST /auth/refresh-token", link: "/endpoints/auth/refresh-token" },
+                  { text: "GET /auth/current-user", link: "/endpoints/auth/current-user" },
                   {
                     text: "Verification", items: [
                       { text: "GET /auth/verify-email/:verificationCode", link: "/endpoints/auth/verify-email" },
