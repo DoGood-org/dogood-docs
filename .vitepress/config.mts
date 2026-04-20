@@ -71,6 +71,14 @@ export default withMermaid(
                       { text: "POST /auth/resend-verification", link: "/endpoints/auth/resend-verification" },
                     ]
                   },
+                  {
+                    text: "Password", items: [
+                      { text: "POST /auth/forgot-password", link: "/endpoints/auth/forgot-password" },
+                      { text: "POST /auth/reset-password/:resetPasswordToken", link: "/endpoints/auth/reset-password" },
+                      { text: "POST /auth/resent-forgot-password", link: "/endpoints/auth/resent-forgot-password" },
+                    ]
+                  },
+
                   // {
                   //   text: "GET /users/current",
                   //   link: "/endpoints/users",
