@@ -20,8 +20,8 @@ export default withMermaid(
         { text: "Головна", link: "/" },
         // { text: "Examples", link: "/markdown-examples" },
         { text: "Архітектура", link: "/architecture/overview" },
-        { text: "Сутності", link: "/entities/task" },
-        { text: "Ендпоінти", link: "/endpoints/tasks/create-task" },
+        { text: "Сутності", link: "/entities/user" },
+        { text: "Ендпоінти", link: "/endpoints/auth/signup" },
         { text: "API Reference", link: "/api-reference/swagger-ui" },
         { text: "Frontend", link: "/frontend/components" }
 
