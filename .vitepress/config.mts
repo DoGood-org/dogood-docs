@@ -87,6 +87,19 @@ export default withMermaid(
                 ],
               },
               {
+                text: "User",
+                collapsed: true,
+                items: [
+                  { text: "GET /user/profile/:id", link: "/endpoints/user/userById" },
+                  { text: "PUT /user/profile", link: "/endpoints/user/putUserProfile" },
+                  { text: "DELETE /user/profile", link: "/endpoints/user/deleteUserProfile" },
+                  { text: "POST /user/name", link: "/endpoints/user/postUserByName" },
+                  { text: "PUT /user/settings", link: "/endpoints/user/putUserSettings" },
+                  { text: "", link: "/endpoints/user/" },
+                ]
+
+              },
+              {
                 text: "Tasks",
                 collapsed: true,
                 items: [
