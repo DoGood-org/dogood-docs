@@ -892,6 +892,40 @@
         }
       }
     },
+    "/organization/": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Find organizations by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The name (or part of the name) of the organization to search for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Name query parameter is missing or invalid"
+          }
+        }
+      }
+    },
     "/organization/create": {
       "post": {
         "tags": [
@@ -1394,8 +1428,64 @@
         }
       }
     },
+    "/user/profile/public/{id}": {
+      "get": {
+        "summary": "Get public user profile by ID",
+        "tags": [
+          "Profile"
+        ],
+        "description": "Returns public information about a user. Does not require authentication.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public user profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/PublicUser"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/profile": {
-      "put": {
+      "patch": {
         "summary": "Update user profile",
         "tags": [
           "Profile"
@@ -2820,6 +2910,63 @@
           }
         }
       },
+      "OrganizationListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Organization"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Organization": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "moreInfo": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "stripeCustomerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "CreateOrganizationInput": {
         "type": "object",
         "required": [
@@ -2830,7 +2977,7 @@
           "email"
         ],
         "properties": {
-          "organizationName": {
+          "name": {
             "type": "string",
             "minLength": 2,
             "maxLength": 50
@@ -2883,7 +3030,7 @@
       "UpdateOrganization": {
         "type": "object",
         "properties": {
-          "organizationName": {
+          "name": {
             "type": "string"
           },
           "description": {
@@ -3227,7 +3374,7 @@
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "integer"
+                  "type": "string"
                 },
                 "title": {
                   "type": "string"
@@ -3238,6 +3385,110 @@
           "stripeCustomerId": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "PublicUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "uuid-1234-5678"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "profile": {
+            "type": "object",
+            "properties": {
+              "bio": {
+                "type": "string",
+                "nullable": true
+              },
+              "avatar": {
+                "type": "string",
+                "nullable": true
+              },
+              "gender": {
+                "type": "string",
+                "enum": [
+                  "MALE",
+                  "FEMALE",
+                  "OTHER"
+                ]
+              }
+            }
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "organizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserOrganization"
+            }
+          },
+          "reviewsReceived": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "rating": {
+                  "type": "integer"
+                },
+                "comment": {
+                  "type": "string"
+                },
+                "authorUser": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "profile": {
+                      "type": "object",
+                      "properties": {
+                        "avatar": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "startDate": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
           }
         }
       },
