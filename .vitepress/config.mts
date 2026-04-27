@@ -20,8 +20,8 @@ export default withMermaid(
         { text: "Головна", link: "/" },
         // { text: "Examples", link: "/markdown-examples" },
         { text: "Архітектура", link: "/architecture/overview" },
-        { text: "Сутності", link: "/entities/task" },
-        { text: "Ендпоінти", link: "/endpoints/tasks/create-task" },
+        { text: "Сутності", link: "/entities/user" },
+        { text: "Ендпоінти", link: "/endpoints/auth/signup" },
         { text: "API Reference", link: "/api-reference/swagger-ui" },
         { text: "Frontend", link: "/frontend/components" }
 
@@ -85,6 +85,19 @@ export default withMermaid(
                   //   link: "/endpoints/users",
                   // },
                 ],
+              },
+              {
+                text: "User",
+                collapsed: true,
+                items: [
+                  { text: "GET /user/profile/:id", link: "/endpoints/user/userById" },
+                  { text: "PUT /user/profile", link: "/endpoints/user/putUserProfile" },
+                  { text: "DELETE /user/profile", link: "/endpoints/user/deleteUserProfile" },
+                  { text: "POST /user/name", link: "/endpoints/user/postUserByName" },
+                  { text: "PUT /user/settings", link: "/endpoints/user/putUserSettings" },
+                  { text: "", link: "/endpoints/user/" },
+                ]
+
               },
               {
                 text: "Tasks",
