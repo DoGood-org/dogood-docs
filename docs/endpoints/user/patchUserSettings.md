@@ -1,4 +1,4 @@
-# PUT /user/settings
+# PATCH /user/settings
 
 ## Призначення
 
@@ -17,9 +17,11 @@
 ```
 
 ## Поля
-Поле	Тип	Обов'язкове	Опис
-theme	enum	ні	light / dark
-language	string	ні	Мова
+| Поле     | Тип              | Обов'язкове |
+| -------- | ---------------- | :---------: |
+| theme    | enum(light/dark) |      ❌      |
+| language | string           |      ❌      |
+
 
 ## Додаткова логіка
 - settings → upsert
@@ -27,25 +29,26 @@ language	string	ні	Мова
 ## Що робить бекенд
 1. Перевіряє авторизацію
 2. Оновлює або створює settings
-3. Завантажує користувача
-4. sanitizeUser
-5. Повертає
+3. Повертає settings DTO
 
-## Response ⚠️
+## ⚠️ Валідація
+- theme → light або dark
+- language → від 2 до 5 символів
+ 
+## Response 
 ```json
 {
   "status": "success",
   "code": "USER_SETTINGS_UPDATED",
   "data": {
-    "settings": { ...UserResponseDTO }
+    "settings": {
+      "id": 1,
+      "userId": "uuid",
+      "theme": "dark",
+      "language": "en"
+    }
   }
 }
 ```
 
-❗ Тут є проблема:
 
-👉 повртається settings, але кладемо туди user
-
-data: { settings: sanitizedUser }
-
-👉 це вводить в оману

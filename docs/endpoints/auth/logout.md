@@ -35,7 +35,7 @@
 6. Повертає відповідь
 
 ## Що пишеться в БД
-- RefreshToken → видаляються всі записи користувача
+- [RefreshToken](/entities/refresh-token) → видаляються всі записи користувача
 
 ## Response
 ```
@@ -66,4 +66,4 @@
 
 ## Пов’язані сутності
 
-RefreshToken
+- [RefreshToken](/entities/refresh-token)

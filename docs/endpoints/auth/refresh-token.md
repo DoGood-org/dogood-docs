@@ -113,4 +113,4 @@
 
 ## 🔗 Пов’язані сутності
 
-RefreshToken
+- [RefreshToken](/entities/refresh-token)

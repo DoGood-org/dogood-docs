@@ -49,8 +49,17 @@ export default withMermaid(
           {
             text: "Сутності",
             items: [
-              { text: "User", link: "/entities/user" },
+              {
+                text: 'User-entities', collapsed: true, items: [
+                  { text: "User", link: "/entities/user" },
+                  { text: "UserProfile", link: "/entities/user-profile" },
+                  { text: "UserSettings", link: "/entities/user-settings" },
+                  { text: "RefreshToken", link: "/entities/refresh-token" }
+
+                ]
+              },
               { text: "Task", link: "/entities/task" },
+              { text: "Location", link: "/entities/location" }
               // { text: "Organization", link: "/entities/organization" },
             ],
           },
@@ -91,10 +100,11 @@ export default withMermaid(
                 collapsed: true,
                 items: [
                   { text: "GET /user/profile/:id", link: "/endpoints/user/userById" },
-                  { text: "PUT /user/profile", link: "/endpoints/user/putUserProfile" },
+                  { text: "GET /user/profile/public/:id", link: "/endpoints/user/publicUserById" },
                   { text: "DELETE /user/profile", link: "/endpoints/user/deleteUserProfile" },
                   { text: "POST /user/name", link: "/endpoints/user/postUserByName" },
-                  { text: "PUT /user/settings", link: "/endpoints/user/putUserSettings" },
+                  { text: "PATCH /user/profile", link: "/endpoints/user/patchUserProfile" },
+                  { text: "PATCH /user/settings", link: "/endpoints/user/patchUserSettings" },
                   { text: "", link: "/endpoints/user/" },
                 ]
 
@@ -113,7 +123,14 @@ export default withMermaid(
           {
             text: "Constants",
             items: [
+              { text: "User", link: "/constants/user" },
               { text: "Tasks", link: "/constants/task" }
+            ]
+          },
+          {
+            text: "Models",
+            items: [
+              { text: "User", link: '/models/user' }
             ]
           }
           // {
