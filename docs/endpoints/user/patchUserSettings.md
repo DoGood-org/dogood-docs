@@ -1,4 +1,4 @@
-# PUT /user/settings
+# PATCH /user/settings
 
 ## Призначення
 

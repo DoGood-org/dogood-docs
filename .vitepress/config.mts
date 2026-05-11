@@ -91,10 +91,11 @@ export default withMermaid(
                 collapsed: true,
                 items: [
                   { text: "GET /user/profile/:id", link: "/endpoints/user/userById" },
-                  { text: "PUT /user/profile", link: "/endpoints/user/putUserProfile" },
+                  { text: "GET /user/profile/public/:id", link: "/endpoints/user/publicUserById" },
                   { text: "DELETE /user/profile", link: "/endpoints/user/deleteUserProfile" },
                   { text: "POST /user/name", link: "/endpoints/user/postUserByName" },
-                  { text: "PUT /user/settings", link: "/endpoints/user/putUserSettings" },
+                  { text: "PATCH /user/profile", link: "/endpoints/user/patchUserProfile" },
+                  { text: "PATCH /user/settings", link: "/endpoints/user/patchUserSettings" },
                   { text: "", link: "/endpoints/user/" },
                 ]
 

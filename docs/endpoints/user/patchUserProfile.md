@@ -1,4 +1,4 @@
-# PUT /user/profile
+# PATCH /user/profile
 
 ## Призначення
 
