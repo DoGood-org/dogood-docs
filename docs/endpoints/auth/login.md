@@ -46,7 +46,7 @@
 9. Повертає user
 
 ## Що пишеться в БД
-- [RefreshToken](/entities/user#refreshtoken) (новий запис)
+- [RefreshToken](/entities/refresh-token) (новий запис)
 
 ## Response
 ```json
@@ -98,6 +98,5 @@ Refresh Token
 
 ## Пов’язані сутності
 
-[User](/entities/user)
-
-RefreshToken
+- [User](/entities/user)
+- [RefreshToken](/entities/refresh-token)
