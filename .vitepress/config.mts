@@ -49,8 +49,17 @@ export default withMermaid(
           {
             text: "Сутності",
             items: [
-              { text: "User", link: "/entities/user" },
+              {
+                text: 'User-entities', collapsed: true, items: [
+                  { text: "User", link: "/entities/user" },
+                  { text: "UserProfile", link: "/entities/user-profile" },
+                  { text: "UserSettings", link: "/entities/user-settings" },
+                  { text: "RefreshToken", link: "/entities/refresh-token" }
+
+                ]
+              },
               { text: "Task", link: "/entities/task" },
+              { text: "Location", link: "/entities/location" }
               // { text: "Organization", link: "/entities/organization" },
             ],
           },
@@ -114,7 +123,14 @@ export default withMermaid(
           {
             text: "Constants",
             items: [
+              { text: "User", link: "/constants/user" },
               { text: "Tasks", link: "/constants/task" }
+            ]
+          },
+          {
+            text: "Models",
+            items: [
+              { text: "User", link: '/models/user' }
             ]
           }
           // {
