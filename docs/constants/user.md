@@ -6,6 +6,25 @@ enum SiteRole {
 }
 ```
 
+## UserStatus
+```ts
+enum UserStatus {
+  ACTIVE
+  BANNED
+}
+```
+
+## BlockType
+```ts
+enum BlockType {
+  THREE_DAYS     
+  ONE_WEEK       
+  ONE_MONTH      
+  CUSTOM         
+  PERMANENT      
+}
+```
+
 ## Gender
 ```ts
 enum Gender {
