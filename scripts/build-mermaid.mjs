@@ -1,4 +1,5 @@
-import { readdir, mkdir } from "node:fs/promises";
+// import { readdir, mkdir } from "node:fs/promises";
+import { readdir, mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -44,16 +45,61 @@ async function main() {
       : path.resolve("node_modules/.bin/mmdc");
 
   for (const file of mmdFiles) {
+    const basename = path.basename(file, ".mmd");
     const inputPath = path.resolve(inputDir, file);
-    const outputPath = path.resolve(
-      outputDir,
-      `${path.basename(file, ".mmd")}.svg`
+
+    const lightOutput = path.resolve(outputDir, `${basename}-light.svg`);
+
+    const darkOutput = path.resolve(outputDir, `${basename}-dark.svg`);
+
+    const darkConfig = path.resolve("mermaid-dark.json");
+
+    console.log(`Generating ${lightOutput}...`);
+
+    await runCommand(mmdcPath, [
+      "-i",
+      inputPath,
+      "-o",
+      lightOutput,
+      "-t",
+      // "default",
+      "neutral",
+    ]);
+
+    console.log(`Generating ${darkOutput}...`);
+
+    await runCommand(mmdcPath, [
+      "-i",
+      inputPath,
+      "-o",
+      darkOutput,
+      "-t",
+      "dark",
+      "-c",
+      darkConfig,
+    ]);
+
+    // FIX DARK SVG BACKGROUND
+    const svg = await readFile(darkOutput, "utf8");
+
+    const fixedSvg = svg.replace(
+      /background-color:\s*white;/g,
+      "background-color: transparent;"
     );
 
-    console.log(`Generating ${outputPath}...`);
-
-    await runCommand(mmdcPath, ["-i", inputPath, "-o", outputPath]);
+    await writeFile(darkOutput, fixedSvg);
   }
+  // for (const file of mmdFiles) {
+  //   const inputPath = path.resolve(inputDir, file);
+  //   const outputPath = path.resolve(
+  //     outputDir,
+  //     `${path.basename(file, ".mmd")}.svg`
+  //   );
+
+  //   console.log(`Generating ${outputPath}...`);
+
+  //   await runCommand(mmdcPath, ["-i", inputPath, "-o", outputPath]);
+  // }
 
   console.log("All diagrams generated.");
 }

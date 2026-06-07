@@ -1,5 +1,7 @@
 import { defineConfig } from "vitepress";
 import { withMermaid } from "vitepress-plugin-mermaid";
+import { nav } from "./configs/nav";
+import { sidebar } from "./configs/sidebar";
 
 // https://vitepress.dev/reference/site-config
 
@@ -16,153 +18,8 @@ export default withMermaid(
       outline: [2, 4],
       // https://vitepress.dev/reference/default-theme-config
 
-      nav: [
-        { text: "Головна", link: "/" },
-        // { text: "Examples", link: "/markdown-examples" },
-        { text: "Архітектура", link: "/architecture/overview" },
-        { text: "Сутності", link: "/entities/user" },
-        { text: "Ендпоінти", link: "/endpoints/auth/signup" },
-        { text: "API Reference", link: "/api-reference/swagger-ui" },
-        { text: "Frontend", link: "/frontend/components" }
-
-      ],
-
-      sidebar: {
-        '/': [
-          {
-            text: "Вступ",
-            items: [{ text: "Головна", link: "/" }],
-          },
-          {
-            text: "Архітектура",
-            items: [
-              { text: "Overview", link: "/architecture/overview" },
-              { text: "DTO and Models", link: "/architecture/dto-and-models" },
-              { text: "Authentication and Session Flow", link: "/architecture/authentication-and-session-flow" }
-              // {
-              //   text: "Frontend ↔ Backend Flow",
-              //   link: "/architecture/frontend-backend-flow",
-              // },
-              // { text: "Auth Flow", link: "/architecture/auth-flow" },
-            ],
-          },
-          {
-            text: "Сутності",
-            items: [
-              {
-                text: 'User-entities', collapsed: true, items: [
-                  { text: "User", link: "/entities/user" },
-                  { text: "UserProfile", link: "/entities/user-profile" },
-                  { text: "UserSettings", link: "/entities/user-settings" },
-                  { text: "RefreshToken", link: "/entities/refresh-token" }
-
-                ]
-              },
-              { text: "Task", link: "/entities/task" },
-              { text: "Location", link: "/entities/location" }
-              // { text: "Organization", link: "/entities/organization" },
-            ],
-          },
-          {
-            text: "Ендпоінти",
-            items: [
-              {
-                text: "Auth",
-                collapsed: true,
-                items: [
-                  { text: "POST /auth/signup", link: "/endpoints/auth/signup" },
-                  { text: "POST /auth/login", link: "/endpoints/auth/login" },
-                  { text: "POST /auth/logout", link: "/endpoints/auth/logout" },
-                  { text: "POST /auth/refresh-token", link: "/endpoints/auth/refresh-token" },
-                  { text: "GET /auth/current-user", link: "/endpoints/auth/current-user" },
-                  {
-                    text: "Verification", items: [
-                      { text: "GET /auth/verify-email/:verificationCode", link: "/endpoints/auth/verify-email" },
-                      { text: "POST /auth/resend-verification", link: "/endpoints/auth/resend-verification" },
-                    ]
-                  },
-                  {
-                    text: "Password", items: [
-                      { text: "POST /auth/forgot-password", link: "/endpoints/auth/forgot-password" },
-                      { text: "POST /auth/reset-password/:resetPasswordToken", link: "/endpoints/auth/reset-password" },
-                      { text: "POST /auth/resent-forgot-password", link: "/endpoints/auth/resent-forgot-password" },
-                    ]
-                  },
-
-                  // {
-                  //   text: "GET /users/current",
-                  //   link: "/endpoints/users",
-                  // },
-                ],
-              },
-              {
-                text: "User",
-                collapsed: true,
-                items: [
-                  { text: "GET /user/profile/:id", link: "/endpoints/user/userById" },
-                  { text: "GET /user/profile/public/:id", link: "/endpoints/user/publicUserById" },
-                  { text: "DELETE /user/profile", link: "/endpoints/user/deleteUserProfile" },
-                  { text: "POST /user/name", link: "/endpoints/user/postUserByName" },
-                  { text: "PATCH /user/profile", link: "/endpoints/user/patchUserProfile" },
-                  { text: "PATCH /user/settings", link: "/endpoints/user/patchUserSettings" },
-                  { text: "", link: "/endpoints/user/" },
-                ]
-
-              },
-              {
-                text: "Tasks",
-                collapsed: true,
-                items: [
-                  { text: "GET /task", link: "/endpoints/tasks/get-all-tasks" },
-                  { text: "POST /task", link: "/endpoints/tasks/create-task" },
-                  { text: "PATCH /task/:id", link: "/endpoints/tasks/update-task" }
-                ],
-              },
-            ],
-          },
-          {
-            text: "Constants",
-            items: [
-              { text: "User", link: "/constants/user" },
-              { text: "Tasks", link: "/constants/task" }
-            ]
-          },
-          {
-            text: "Models",
-            items: [
-              { text: "User", link: '/models/user' }
-            ]
-          }
-          // {
-          //   text: "Conventions",
-          //   items: [
-          //     { text: "Response Format", link: "/conventions/response-format" },
-          //     { text: "Error Format", link: "/conventions/error-format" },
-          //     { text: "Validation", link: "/conventions/validation" },
-          //   ],
-          // },
-          // {
-          //   text: "API Reference",
-          //   items: [
-          //     { text: "OpenAPI / Swagger", link: "/api-reference/openapi" },
-          //     { text: 'Swagger UI', link: '/api-reference/swagger-ui' }
-          //   ],
-          // },
-        ],
-
-        '/frontend/': [
-          {
-            text: "Frontend Docs",
-            items: [
-              { text: "Components", link: "/frontend/components" },
-              { text: "Styles", link: "/frontend/styles" }
-            ]
-          }
-        ],
-
-        // Swagger - вимкнути sidebar
-        '/api-reference/': []
-      },
+      nav,
+      sidebar,
 
       socialLinks: [
         { icon: "github", link: "https://github.com/acvetochka/DoGood-docs" },
@@ -172,8 +29,9 @@ export default withMermaid(
     markdown: {
       theme: "material-theme-palenight",
     },
-    mermaid: {
-      theme: "default",
-    },
+    // mermaid: {
+    //   theme: "default",
+    // },
   })
 );
+
