@@ -64,7 +64,7 @@ phoneNumber
 ## 2. UserProfile DB Model
 ERD
 
-<img src="/diagrams/userProfile.svg" class="diagram" />
+<Diagram name="userProfile" />
 
 Поля
 | Поле        | Тип                              | Обов'язкове | Опис                  |

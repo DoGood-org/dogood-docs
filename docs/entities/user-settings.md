@@ -29,7 +29,7 @@
   
 ## 2. UserSettings DB Model
 
-<img src="/diagrams/userSettings.svg" class="diagram" />
+<Diagram name="userSettings" />
 
 📋 Поля
 | Поле     | Тип    | Обов'язкове | Опис                    |

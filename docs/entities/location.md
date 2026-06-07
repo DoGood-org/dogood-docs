@@ -17,7 +17,7 @@
 
 ## 1. Location DB Model
 
-<img src="/diagrams/location.svg" class="diagram" />
+<Diagram name="location" />
 
 📋 Поля
 
@@ -63,8 +63,6 @@
   "city": "Munich"
 }
 ```
-
-
 
 ##  Особливості
 - Location створюється автоматично через upsert
