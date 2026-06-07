@@ -305,6 +305,24 @@ PublicUser:
 }
 ```
 
+### 🔹 Ban Response DTO
+
+При спробі виконати авторизовану дію під час активного блокування API повертає:
+
+```json
+{
+  "message": "Access denied. Account suspended.",
+  "code": "USER_WAS_BANNED",
+  "bannedUser": {
+    "accountId": "string",
+    "suspendedOn": "Date",
+    "suspensionType": "THREE_DAYS | ONE_WEEK | ONE_MONTH | CUSTOM | PERMANENT",
+    "reason": "string",
+    "banExpiresAt": "Date | null"
+  }
+}
+```
+
 ## ⚠️ Важливі правила
 🔐 Безпека
 

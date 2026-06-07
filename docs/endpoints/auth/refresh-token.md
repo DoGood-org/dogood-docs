@@ -93,6 +93,34 @@
 }
 ```
 
+## 🚫 Активне блокування
+
+Під час оновлення токенів бекенд перевіряє статус користувача.
+
+Якщо користувач має активне блокування:
+
+- accessToken cookie очищається;
+- refreshToken cookie очищається;
+- нові токени не генеруються.
+
+### Response
+
+HTTP: `403 Forbidden`
+
+```json
+{
+  "message": "Access denied. Account suspended.",
+  "code": "USER_WAS_BANNED",
+  "bannedUser": {
+    "accountId": "user-id",
+    "suspendedOn": "2026-06-01T12:00:00.000Z",
+    "suspensionType": "ONE_WEEK",
+    "reason": "Access restricted due to a community guidelines violation",
+    "banExpiresAt": "2026-06-08T12:00:00.000Z"
+  }
+}
+```
+
 ## 🍪 Cookies (вихід)
 | Cookie       | Опис             |
 | ------------ | ---------------- |
@@ -109,7 +137,7 @@
 | -------------------------- | ---- | ---------------------------- |
 | AUTH_REFRESH_TOKEN_INVALID | 401  | Токен відсутній / невалідний |
 | USER_NOT_FOUND             | 404  | Користувача не знайдено      |
-| AUTH_REFRESH_TOKEN_INVALID | 403  | Обліковий запис заблоковано  |
+| USER_WAS_BANNED            | 403  | Обліковий запис заблоковано  |
 
 ## 🔐 Безпека
 - захист від replay attack
