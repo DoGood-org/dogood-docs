@@ -51,86 +51,48 @@
 
 ## 2. User DB Model
 ERD
-```mermaid
-erDiagram
-    User ||--|| UserProfile : has
-    User ||--|| UserSettings : has
-    User ||--o{ RefreshToken : owns
-    User }o--|| Location : located_in
 
-    User {
-        string id PK
-        string email
-        string name
-        string password
-        enum siteRole
-        boolean isEmailVerified
-        string emailVerificationCode
-        datetime emailVerificationExpiresAt
-        string resetPasswordToken
-        datetime resetPasswordExpiresAt
-        int locationId FK
-        string stripeCustomerId
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    UserProfile {
-        int id PK
-        string userId FK
-        string bio
-        string avatar
-        enum gender
-        datetime birthDate
-        string phoneNumber
-    }
-
-    UserSettings {
-        int id PK
-        string userId FK
-        string theme
-        string language
-    }
-
-    RefreshToken {
-        string id PK
-        string token
-        string userId FK
-        string ip
-        string userAgent
-        datetime createdAt
-        datetime expiresAt
-        boolean revoked
-        datetime updatedAt
-    }
-
-    Location {
-        int id PK
-        string country
-        string region
-        string city
-    }
-```
+<Diagram name="userERD" className="big-diagram"/>
 
 [Докладніше про зв'язки моделей користувача в БД](/models/user)
 
 ### User
-| Поле                       | Тип                                  | Обов'язкове | Опис                   |
-| -------------------------- | ------------------------------------ | :---------: | ---------------------- |
-| id                         | string                               |     так     | UUID                   |
-| email                      | string                               |     так     | Унікальний email       |
-| name                       | string                               |     так     | Ім’я                   |
-| password                   | string                               |     так     | Хешований пароль       |
-| siteRole                   | [SiteRole](/constants/user#siterole) |     так     | USER / ADMIN           |
-| isEmailVerified            | boolean                              |     так     | Чи підтверджений email |
-| emailVerificationCode      | string                               |     ні      | Код підтвердження      |
-| emailVerificationExpiresAt | DateTime                             |     ні      | Термін дії коду        |
-| resetPasswordToken         | string                               |     ні      | Токен скидання пароля  |
-| resetPasswordExpiresAt     | DateTime                             |     ні      | Термін дії reset token |
-| locationId                 | number                               |     ні      | FK → Location          |
-| stripeCustomerId           | string                               |     ні      | Stripe customer ID     |
-| createdAt                  | DateTime                             |     так     | Дата створення         |
-| updatedAt                  | DateTime                             |     так     | Дата оновлення         |
+| Поле                       | Тип                                      | Обов'язкове | Опис                          |
+| -------------------------- | ---------------------------------------- | :---------: | ----------------------------- |
+| id                         | string                                   |     так     | UUID                          |
+| email                      | string                                   |     так     | Унікальний email              |
+| name                       | string                                   |     так     | Ім’я                          |
+| password                   | string                                   |     так     | Хешований пароль              |
+| siteRole                   | [SiteRole](/constants/user#siterole)     |     так     | USER / ADMIN                  |
+| isEmailVerified            | boolean                                  |     так     | Чи підтверджений email        |
+| emailVerificationCode      | string                                   |     ні      | Код підтвердження             |
+| emailVerificationExpiresAt | DateTime                                 |     ні      | Термін дії коду               |
+| resetPasswordToken         | string                                   |     ні      | Токен скидання пароля         |
+| resetPasswordExpiresAt     | DateTime                                 |     ні      | Термін дії reset token        |
+| locationId                 | number                                   |     ні      | FK → Location                 |
+| stripeCustomerId           | string                                   |     ні      | Stripe customer ID            |
+| createdAt                  | DateTime                                 |     так     | Дата створення                |
+| updatedAt                  | DateTime                                 |     так     | Дата оновлення                |
+| status                     | [UserStatus](/constants/user#userstatus) |     так     | Статус користувача            |
+| banType                    | [BlockType](/constants/user#blocktype)   |     ні      | Тип блокування                |
+| banReason                  | string                                   |     ні      | Причина блокування            |
+| banExpiresAt               | DateTime                                 |     ні      | Дата завершення бану          |
+| bannedById                 | string                                   |     ні      | FK → User.id (хто заблокував) |
+
+**UserStatus**
+| Значення | Опис         |
+| -------- | ------------ |
+| ACTIVE   | Активний     |
+| BANNED   | Заблокований |
+
+**BlockType**
+| Значення   | Опис                  |
+| ---------- | --------------------- |
+| THREE_DAYS | Бан на 3 дні          |
+| ONE_WEEK   | Бан на 1 тиждень      |
+| ONE_MONTH  | Бан на 1 місяць       |
+| CUSTOM     | Користувацький термін |
+| PERMANENT  | Постійний бан         |
 
 <!-- 
 ### UserProfile
@@ -201,21 +163,26 @@ erDiagram
 - редагування профіля
 
 **Поля**
-| Поле             | Тип                                                | Опис                  |
-| ---------------- | -------------------------------------------------- | --------------------- |
-| id               | string                                             | ID                    |
-| email            | string                                             | Email                 |
-| name             | string                                             | Ім’я                  |
-| siteRole         | [SiteRole](/constants/user#siterole)               | Роль                  |
-| isEmailVerified  | boolean                                            | Статус email          |
-| stripeCustomerId | string             \| null                         | Stripe customer       |
-| profile          | [UserProfile](user-profile)                \| null | Профіль               |
-| location         | Location                   \| null                 | Локація               |
-| userSettings     | [UserSettings](user-settings)                      | Налаштування          |
-| organizations    | UserOrganization[]                                 | Організації           |
-| tasks            | Task[]                                             | Hosted + joined tasks |
-| createdAt        | DateTime                                           | Дата створення        |
-| updatedAt        | DateTime                                           | Дата оновлення        |
+| Поле             | Тип                                                | Опис                          |
+| ---------------- | -------------------------------------------------- | ----------------------------- |
+| id               | string                                             | ID                            |
+| email            | string                                             | Email                         |
+| name             | string                                             | Ім’я                          |
+| siteRole         | [SiteRole](/constants/user#siterole)               | Роль                          |
+| isEmailVerified  | boolean                                            | Статус email                  |
+| stripeCustomerId | string             \| null                         | Stripe customer               |
+| profile          | [UserProfile](user-profile)                \| null | Профіль                       |
+| location         | Location                   \| null                 | Локація                       |
+| userSettings     | [UserSettings](user-settings)                      | Налаштування                  |
+| organizations    | UserOrganization[]                                 | Організації                   |
+| tasks            | Task[]                                             | Hosted + joined tasks         |
+| createdAt        | DateTime                                           | Дата створення                |
+| updatedAt        | DateTime                                           | Дата оновлення                |
+| status           | UserStatus                                         | Статус користувача            |
+| banType          | BlockType   \| null                                | Тип блокування                |
+| banReason        | string   \| null                                   | Причина блокування            |
+| banExpiresAt     | DateTime      \| null                              | Дата завершення бану          |
+| bannedById       | string       \| null                               | FK → User.id (хто заблокував) |
 
 Приклад
 ```json
@@ -226,6 +193,11 @@ erDiagram
   "siteRole": "USER",
   "isEmailVerified": true,
   "stripeCustomerId": null,
+  "status": "ACTIVE",
+  "banType": null,
+  "banReason": null,
+  "banExpiresAt": null,
+  "bannedById": null
 
   "profile": {
     "bio": "About me",
@@ -362,6 +334,45 @@ sanitizeUser()
 | email    | Валідний email     |
 | password | Мінімум 6 символів |
 | name     | 3–30 символів      |
+
+## 🚫 User Ban System {#user-ban-system}
+Користувач може мати один із статусів:
+
+- ACTIVE
+- BANNED (заблокований)
+
+При блокуванні зберігається:
+- тип блокування
+- причина
+- дата завершення
+- адміністратор, який виконав блокування
+
+### Типи блокування
+
+- THREE_DAYS
+- ONE_WEEK
+- ONE_MONTH
+- CUSTOM
+- PERMANENT
+
+### Автоматичний розбан
+
+Для тимчасових блокувань система автоматично перевіряє:
+
+- чи завершився термін блокування;
+- якщо так — статус користувача змінюється на ACTIVE;
+- дані про блокування очищаються:
+  - `banType`
+  - `banReason`
+  - `banExpiresAt`
+  - `bannedById`
+
+Перевірка виконується під час:
+- POST /auth/login
+- POST /auth/refresh-token
+- authenticateUser middleware
+
+Таким чином користувач автоматично розбанюється після завершення терміну тимчасового блокування без додаткових дій адміністратора.
 
 ## Архітектурний момент
 | DTO         | Де використовується             |

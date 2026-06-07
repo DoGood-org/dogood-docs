@@ -19,9 +19,11 @@ Refresh token:
 - має термін дії
 - може бути відкликаний (revoked)
 
+👉 Під час оновлення токенів також перевіряється статус користувача (ACTIVE/BANNED). Детальніше див. у розділі [User → User Ban System](user#user-ban-system).
+ <!-- user#%F0%9F%9A%AB-user-ban-system -->
 ## 1. RefreshToken DB Model
 
-<img src="/diagrams/refreshToken.svg" class="diagram" />
+<Diagram name="refreshToken" />
 
 📋 Поля
 | Поле      | Тип      | Обов'язкове | Опис                         |
@@ -59,12 +61,17 @@ Refresh token:
 - використовується для генерації нового access token
 
 ### 🔄 Refresh Flow
-1. accessToken expired
-2. frontend calls POST /auth/refresh-token
-3. backend validates refreshToken
-4. backend revokes old token
-5. backend creates new refreshToken
-6. backend returns new cookies
+1. Access Token закінчує термін дії
+2. Frontend викликає `POST /auth/refresh-token`
+3. Бекенд перевіряє refreshToken
+4. Завантажує користувача
+5. Перевіряє статус користувача
+6. Якщо термін тимчасового блокування завершився — користувач автоматично розблоковується
+7. Позначає старий refresh token як revoked
+8. Створює новий refresh token
+9. Створює новий access token
+10. Встановлює нові cookies
+11. Повертає успішну відповідь
 
 ### Revoke логіка
 
@@ -96,10 +103,11 @@ Refresh token:
 
 ### Reuse Detection
 
-Якщо revoked token використовується повторно після grace period:
+Якщо revoked token використовується повторно після завершення grace period:
 
 - бекенд вважає це potential token reuse attack
 - refresh відхиляється
+- нові токени не видаються
 
 ## 3. RefreshToken Response DTO
 🔹 Login Response
@@ -124,6 +132,7 @@ Cookies:
 
 ##  Безпека
 - refresh token ніколи не повертається в JSON response
+- refresh token проходить rotation при кожному успішному refresh
 - refresh token зберігається лише:
     - в cookies
     - в БД

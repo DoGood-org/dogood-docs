@@ -40,7 +40,12 @@
     "email": "string",
     "name": "string",
     "siteRole": "USER | ADMIN",
-    "isEmailVerified": true,
+    "isEmailVerified": "boolean",
+    "status": "ACTIVE | BANNED",
+    "banType": " THREE_DAYS | ONE_WEEK | ONE_MONTH | CUSTOM | PERMANENT | null",
+    "banReason": "string | null",
+    "banExpiresAt": "datetime | null",
+    "bannedById": "string | null",
 
     "createdAt": "string (ISO date-time)",
     "updatedAt": "string (ISO date-time)",
