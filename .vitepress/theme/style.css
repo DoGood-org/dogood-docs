@@ -21,6 +21,11 @@
   padding: 0 24px;
 }
 
+rapi-doc::part(section-main-content) {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .diagram {
   max-width: 400px;
   width: 100%;

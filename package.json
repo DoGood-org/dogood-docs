@@ -11,7 +11,8 @@
     "dev": "vitepress dev",
     "docs:preview": "vitepress preview",
     "diagrams:build": "node scripts/build-mermaid.mjs",
-    "docs:build": "npm run diagrams:build && vitepress build"
+    "docs:build": "npm run diagrams:build && vitepress build",
+    "docs": "vitepress build"
   },
   "dependencies": {
     "rapidoc": "^9.3.8",
