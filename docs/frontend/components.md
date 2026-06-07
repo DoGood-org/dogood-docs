@@ -147,13 +147,13 @@ This component renders a customizable button with support for multiple visual
 This component renders a customizable button with support for multiple visual
 `variants`, `sizes`, and `asChild` rendering via Radix UI's Slot.
 
-| Prop        | Default value | Description                                                                                       |
-| ----------- | ------------- | ------------------------------------------------------------------------------------------------- |
-| `variant`   | `default`     | Optional. One of the options: `ghost`, `primary`, `secondary`, `filters`, `tag`                   |
-| `size`      | `default`     | Optional. One of the options: `sm`, `md`, `lg`, `xl`                                              |
-| `asChild`   | `false`       | Optional. If `true`, renders the component using a Radix <Slot /> instead of a native \<button\>. |
-| `className` | —             | Optional. Additional classes merged into the button's styles.                                     |
-| `...props`  | —             | Any native props for \<button\> or the custom component passed through asChild.                   |
+| Prop        | Default value | Description                                                                                        |
+| ----------- | ------------- | -------------------------------------------------------------------------------------------------- |
+| `variant`   | `default`     | Optional. One of the options: `ghost`, `primary`, `secondary`, `filters`, `tag`                    |
+| `size`      | `default`     | Optional. One of the options: `sm`, `md`, `lg`, `xl`                                               |
+| `asChild`   | `false`       | Optional. If `true`, renders the component using a Radix \<Slot /> instead of a native \<button\>. |
+| `className` | —             | Optional. Additional classes merged into the button's styles.                                      |
+| `...props`  | —             | Any native props for \<button\> or the custom component passed through asChild.                    |
 
 **Variants**
 

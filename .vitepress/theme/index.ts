@@ -1,13 +1,13 @@
 import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
-import SwaggerUI from './components/SwaggerUI.vue'
+import RapiDoc from "./components/RapiDoc.vue";
 import Diagram from './components/Diagram.vue'
 import './style.css'
 
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    app.component('SwaggerUI', SwaggerUI);
-    app.component('Diagram', Diagram)
+    app.component('Diagram', Diagram);
+    app.component("RapiDoc", RapiDoc);
   }
 } satisfies Theme

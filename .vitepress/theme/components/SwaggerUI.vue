@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import SwaggerUI from "swagger-ui-dist/swagger-ui-es-bundle";
+import { onMounted, onUnmounted, ref } from "vue";
 import "swagger-ui-dist/swagger-ui.css";
 
 const props = defineProps<{
@@ -9,16 +8,47 @@ const props = defineProps<{
 
 const container = ref<HTMLElement | null>(null);
 
-onMounted(() => {
+let ui: any = null;
+
+onMounted(async () => {
   if (!container.value) return;
 
-  SwaggerUI({
+  const { default: SwaggerUI } = await import(
+    "swagger-ui-dist/swagger-ui-es-bundle"
+  );
+
+  ui = SwaggerUI({
     domNode: container.value,
     url: props.specUrl || "/openapi/swagger.json",
-    deepLinking: true,
+    deepLinking: false,
     docExpansion: "list",
     persistAuthorization: true,
   });
+});
+
+// onUnmounted(() => {
+//   ui?.destroy?.();
+//   ui = null;
+// });
+
+onUnmounted(() => {
+  console.log("Swagger unmount");
+
+  try {
+    console.log("ui =", ui);
+
+    ui?.destroy?.();
+
+    if (container.value) {
+      container.value.innerHTML = "";
+    }
+
+    console.log("destroy success");
+  } catch (error) {
+    console.error("Swagger destroy error:", error);
+  }
+
+  ui = null;
 });
 </script>
 
