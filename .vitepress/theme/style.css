@@ -1,6 +1,6 @@
-:root {
+/* :root {
   --vp-scroll-offset: 100px;
-}
+} */
 
 .VPDoc.has-aside .content {
   padding-left: 0;
@@ -13,6 +13,17 @@
 
 .VPDoc.has-aside .content-container {
   max-width: 100% !important;
+}
+
+.rapidoc-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+rapi-doc::part(section-main-content) {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .diagram {
@@ -29,121 +40,27 @@
   margin: 20px auto; */
 }
 
-.swagger-full-page aside,
-.swagger-full-page .VPSidebar,
-.swagger-full-page .VPDocAside {
-  display: none !important;
-}
-
-/* Загальний світлий контейнер */
-.swagger-wrapper {
-  width: 100%;
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  overflow: hidden;
-}
-
-/* Базовий текст */
-.swagger-wrapper .swagger-ui {
-  color: #1f2328;
-}
-
-/* Усі основні текстові елементи */
-.swagger-wrapper .swagger-ui,
-.swagger-wrapper .swagger-ui p,
-/* .swagger-wrapper .swagger-ui span, */
-.swagger-wrapper .swagger-ui li,
-.swagger-wrapper .swagger-ui table,
-.swagger-wrapper .swagger-ui label,
-.swagger-wrapper .swagger-ui h1,
-.swagger-wrapper .swagger-ui h2,
-.swagger-wrapper .swagger-ui h3,
-.swagger-wrapper .swagger-ui h4,
-.swagger-wrapper .swagger-ui h5 {
-  color: #1f2328;
-}
-
-/* Таблиці */
-.swagger-wrapper .swagger-ui table tbody tr td,
-.swagger-wrapper .swagger-ui table thead tr th td {
-  color: #1f2328;
-  background: #fff !important;
-}
-
-.swagger-wrapper .vp-doc th,
-.swagger-wrapper .vp-doc tr {
-  color: #1f2328;
-  background: #fff !important;
-}
-
-/* Блоки response/model/code */
-/* .swagger-wrapper .swagger-ui .highlight-code, */
-/* .swagger-wrapper .swagger-ui .microlight, */
-.swagger-wrapper .swagger-ui .model,
-.swagger-wrapper .swagger-ui .model-box,
-/* .swagger-wrapper .swagger-ui pre, */
-/* .swagger-wrapper .swagger-ui pre span, */
-/* .swagger-wrapper .swagger-ui code, */
-.swagger-wrapper .swagger-ui textarea {
-  color: #1f2328 !important;
-  background: #f6f8fa !important;
-}
-
-/* Response body */
-.swagger-wrapper .swagger-ui .responses-inner h4,
-.swagger-wrapper .swagger-ui .responses-inner h5,
-.swagger-wrapper .swagger-ui .response-col_status,
-.swagger-wrapper .swagger-ui .response-col_description {
-  color: #1f2328 !important;
-  background: #f6f8fa !important;
-}
-
-/* JSON response block */
-/* .swagger-wrapper .swagger-ui .highlight-code > .microlight, */
-/* .swagger-wrapper .swagger-ui .example,
-.swagger-wrapper .swagger-ui .example .microlight 
- {
-  color: #1f2328 !important;
-  background: #f6f8fa !important;
-} */
-
-/* Input/select/button у світлому стилі */
-.swagger-wrapper .swagger-ui input,
-.swagger-wrapper .swagger-ui textarea,
-.swagger-wrapper .swagger-ui select {
-  color: #1f2328 !important;
-  background: #fff !important;
-}
-
-/* Headers опблоків */
-/* .swagger-wrapper .swagger-ui .opblock-tag, */
-/* .swagger-wrapper .swagger-ui .opblock-summary-path, */
-.swagger-wrapper .swagger-ui .opblock-summary-description,
-.swagger-wrapper .swagger-ui .tab li button.tablinks {
-  color: #1f2328 !important;
-  background: #fff !important;
-}
-
-/* .swagger-wrapper .swagger-ui .opblock-summary-path span a  */
-.vp-doc a {
-  font-weight: 700 !important;
-  font-size: 14px;
-}
-/* Щоб білий блок не зливався з темною сторінкою */
-.dark .swagger-wrapper {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
 .vp-doc h1,
 .vp-doc h2,
 .vp-doc h3,
 .vp-doc h4,
 .vp-doc h5,
 .vp-doc h6 {
-  scroll-margin-top: 100px;
+  scroll-margin-top: 80px;
 }
 
-.vp-doc [id] {
+/* .vp-doc [id] {
   scroll-margin-top: 100px;
+} */
+
+/* RapiDoc styles */
+
+.endpoint-head .method.post {
+  background-color: #49cc90 !important;
+  color: white;
+}
+
+rapi-doc::part(section-endpoint-head-method) {
+  color: white;
+  font-weight: 600;
 }

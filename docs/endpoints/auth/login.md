@@ -77,6 +77,33 @@
 }
 ```
 
+## 🚫 Заблокований користувач
+
+Якщо обліковий запис має активне блокування, вхід буде відхилений.
+
+Cookies очищаються:
+
+- accessToken
+- refreshToken
+
+### Response
+
+HTTP: `403 Forbidden`
+
+```json
+{
+  "message": "Access denied. Account suspended.",
+  "code": "USER_WAS_BANNED",
+  "bannedUser": {
+    "accountId": "user-id",
+    "suspendedOn": "2026-06-01T12:00:00.000Z",
+    "suspensionType": "ONE_WEEK",
+    "reason": "Access restricted due to a community guidelines violation",
+    "banExpiresAt": "2026-06-08T12:00:00.000Z"
+  }
+}
+```
+
 ## ⚠️ Важливо
 - password ❌ не повертається
 - refreshToken ✔️ зберігається в БД
@@ -99,11 +126,11 @@ Refresh Token
 - використовується для отримання нового access token
 
 ## ❌ Можливі помилки
-| Код                        | HTTP | Опис                                       |
-| -------------------------- | ---- | ------------------------------------------ |
-| AUTH_INVALID_CREDENTIALS   | 400  | Невірний email або пароль                  |
-| AUTH_EMAIL_NOT_VERIFIED    | 403  | Email не підтверджений                     |
-| AUTH_REFRESH_TOKEN_INVALID | 403  | Обліковий запис заблоковано (бан активний) |
+| Код                      | HTTP | Опис                                       |
+| ------------------------ | ---- | ------------------------------------------ |
+| AUTH_INVALID_CREDENTIALS | 400  | Невірний email або пароль                  |
+| AUTH_EMAIL_NOT_VERIFIED  | 403  | Email не підтверджений                     |
+| USER_WAS_BANNED          | 403  | Обліковий запис заблоковано (бан активний) |
 
 
 

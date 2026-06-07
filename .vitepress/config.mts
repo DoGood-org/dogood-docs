@@ -29,6 +29,13 @@ export default withMermaid(
     markdown: {
       theme: "material-theme-palenight",
     },
+    vue: {
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag === "rapi-doc",
+        },
+      },
+    },
     // mermaid: {
     //   theme: "default",
     // },
