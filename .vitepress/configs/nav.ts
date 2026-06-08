@@ -5,6 +5,6 @@ export const nav = [
   { text: "Сутності", link: "/entities/user" },
   { text: "Ендпоінти", link: "/endpoints/auth/signup" },
   { text: "API Reference", link: "/api-reference/swagger-ui" },
-  { text: "Frontend", link: "/frontend/components" }
+  { text: "Frontend", link: "/frontend/README.md" }
 
 ]
