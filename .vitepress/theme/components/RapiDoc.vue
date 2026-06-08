@@ -95,10 +95,10 @@ watch(isDark, () => {
         allow-try="true"
         schema-style="table"
         sort-tags="true"
-        sort-endpoints-by="path"
       />
     </div>
   </ClientOnly>
 </template>
 
+<!-- sort-endpoints-by="path" -->
 <!-- :key="isDark ? 'dark' : 'light'" -->
