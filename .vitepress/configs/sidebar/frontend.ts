@@ -23,7 +23,6 @@ export const frontend = [
           { text: "TaskFilter", link: `${componentsURL}/task-filter` },
           { text: "", link: `${componentsURL}/` },
           { text: "", link: `${componentsURL}/` }
-
         ]
       },
       { text: "Styles", link: "/frontend/styles" }
