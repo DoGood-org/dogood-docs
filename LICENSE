@@ -1,0 +1,26 @@
+PROPRIETARY AND CONFIDENTIAL
+
+Copyright (c) 2026 DoGood Impact Inc. All rights reserved.
+
+This repository, including all source code, documentation, API specifications, 
+and auto-generated schemas (such as swagger.json), contains highly confidential 
+and proprietary information belonging exclusively to the Owner.
+
+This intellectual property is protected under international copyright laws and 
+the terms of the signed Non-Disclosure Agreement (NDA).
+
+TERMS OF USE AND RESTRICTIONS:
+1. UNAUTHORIZED ACCESS PROHIBITED: Access to this repository and its deployed 
+   environments is granted strictly to authorized project contributors who 
+   have a valid, active NDA in place with the Owner.
+2. NO DISTRIBUTION: You may not copy, reproduce, modify, distribute, publish, 
+   or disclose any part of this documentation, code, or API structure to any 
+   third party without explicit prior written consent from the Owner.
+3. NO REVERSE ENGINEERING: Any attempt to extract, leak, or reverse-engineer 
+   the backend-frontend interaction data for external use is strictly forbidden.
+4. INDEMNIFICATION: Any breach of these terms will result in immediate 
+   revocation of access rights and legal liability, including but not limited 
+   to statutory damages and injunctions under the terms of the NDA.
+
+BY ACCESSING OR USING THIS REPRODUCT, YOU ACKNOWLEDGE AND AGREE TO BE BOUND 
+BY THESE CONFIDENTIALITY OBLIGATIONS.
