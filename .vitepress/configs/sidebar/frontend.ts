@@ -19,7 +19,7 @@ export const frontend = [
           { text: "MoreMenu", link: `${componentsURL}/more-menu` },
           { text: "Rating", link: `${componentsURL}/rating` },
           { text: "Section", link: `${componentsURL}/section` },
-          { text: "StarItem", link: `${componentsURL}/star=item` },
+          { text: "StarItem", link: `${componentsURL}/star-item` },
           { text: "TaskFilter", link: `${componentsURL}/task-filter` },
           { text: "", link: `${componentsURL}/` },
           { text: "", link: `${componentsURL}/` }
