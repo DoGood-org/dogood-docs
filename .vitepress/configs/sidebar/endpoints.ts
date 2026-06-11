@@ -23,11 +23,6 @@ export const endpoints = {
             { text: "POST /auth/resent-forgot-password", link: "/endpoints/auth/resent-forgot-password" },
           ]
         },
-
-        // {
-        //   text: "GET /users/current",
-        //   link: "/endpoints/users",
-        // },
       ],
     },
     {

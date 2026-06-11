@@ -1,4 +1,5 @@
 const componentsURL = "/frontend/components";
+const stylesURL = '/frontend/styles';
 
 export const frontend = [
   {
@@ -25,7 +26,16 @@ export const frontend = [
           { text: "", link: `${componentsURL}/` }
         ]
       },
-      { text: "Styles", link: "/frontend/styles" }
+      {
+        text: "Styles",
+        collapsed: true,
+        items: [
+          { text: "Breakpoints", link: `${stylesURL}/breakpoints` },
+          { text: "Colors", link: `${stylesURL}/colors` },
+          { text: "Text", link: `${stylesURL}/text` },
+          { text: "Radius", link: `${stylesURL}/radius` }
+        ]
+      }
     ]
   }
 ]
