@@ -2,6 +2,7 @@ import { defineConfig } from "vitepress";
 import { withMermaid } from "vitepress-plugin-mermaid";
 import { nav } from "./configs/nav";
 import { sidebar } from "./configs/sidebar";
+import { colorPreviewPlugin } from "./configs/markdown/color-preview";
 
 // https://vitepress.dev/reference/site-config
 
@@ -28,6 +29,9 @@ export default withMermaid(
 
     markdown: {
       theme: "material-theme-palenight",
+      config(md) {
+        colorPreviewPlugin(md);
+      },
     },
     vue: {
       template: {
