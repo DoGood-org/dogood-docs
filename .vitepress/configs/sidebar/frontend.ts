@@ -22,7 +22,7 @@ export const frontend = [
           { text: "Section", link: `${componentsURL}/section` },
           { text: "StarItem", link: `${componentsURL}/star-item` },
           { text: "TaskFilter", link: `${componentsURL}/task-filter` },
-          { text: "", link: `${componentsURL}/` },
+          { text: "Pagination", link: `${componentsURL}/pagination` },
           { text: "", link: `${componentsURL}/` }
         ]
       },
