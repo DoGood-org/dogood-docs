@@ -18,11 +18,11 @@ export const frontend = [
           { text: "MenuAction", link: `${componentsURL}/menu-action` },
           { text: "Modal", link: `${componentsURL}/modal` },
           { text: "MoreMenu", link: `${componentsURL}/more-menu` },
+          { text: "Pagination", link: `${componentsURL}/pagination` },
           { text: "Rating", link: `${componentsURL}/rating` },
           { text: "Section", link: `${componentsURL}/section` },
           { text: "StarItem", link: `${componentsURL}/star-item` },
           { text: "TaskFilter", link: `${componentsURL}/task-filter` },
-          { text: "", link: `${componentsURL}/` },
           { text: "", link: `${componentsURL}/` }
         ]
       },
