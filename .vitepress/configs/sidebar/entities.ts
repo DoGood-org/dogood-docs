@@ -11,7 +11,12 @@ export const entities = {
       ]
     },
     { text: "Task", link: "/entities/task" },
-    { text: "Location", link: "/entities/location" }
+    { text: "Location", link: "/entities/location" },
     // { text: "Organization", link: "/entities/organization" },
+    {
+      text: 'Organization-entities', collapsed: true, items: [
+        { text: 'UserOrganization', link: "/entities/organization-member" }
+      ]
+    }
   ],
 }
