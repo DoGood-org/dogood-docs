@@ -1,3 +1,9 @@
+const auth = "/endpoints/auth"
+const user = "/endpoints/user"
+const tasks = "/endpoints/tasks"
+const organization = "/endpoints/organization"
+const member = "/endpoints/member"
+
 export const endpoints = {
   text: "Ендпоінти",
   items: [
@@ -5,22 +11,22 @@ export const endpoints = {
       text: "Auth",
       collapsed: true,
       items: [
-        { text: "POST /auth/signup", link: "/endpoints/auth/signup" },
-        { text: "POST /auth/login", link: "/endpoints/auth/login" },
-        { text: "POST /auth/logout", link: "/endpoints/auth/logout" },
-        { text: "POST /auth/refresh-token", link: "/endpoints/auth/refresh-token" },
-        { text: "GET /auth/current-user", link: "/endpoints/auth/current-user" },
+        { text: "POST /auth/signup", link: `${auth}/signup` },
+        { text: "POST /auth/login", link: `${auth}/login` },
+        { text: "POST /auth/logout", link: `${auth}/logout` },
+        { text: "POST /auth/refresh-token", link: `${auth}/refresh-token` },
+        { text: "GET /auth/current-user", link: `${auth}/current-user` },
         {
           text: "Verification", items: [
-            { text: "GET /auth/verify-email/:verificationCode", link: "/endpoints/auth/verify-email" },
-            { text: "POST /auth/resend-verification", link: "/endpoints/auth/resend-verification" },
+            { text: "GET /auth/verify-email/:verificationCode", link: `${auth}/verify-email` },
+            { text: "POST /auth/resend-verification", link: `${auth}/resend-verification` },
           ]
         },
         {
           text: "Password", items: [
-            { text: "POST /auth/forgot-password", link: "/endpoints/auth/forgot-password" },
-            { text: "POST /auth/reset-password/:resetPasswordToken", link: "/endpoints/auth/reset-password" },
-            { text: "POST /auth/resent-forgot-password", link: "/endpoints/auth/resent-forgot-password" },
+            { text: "POST /auth/forgot-password", link: `${auth}/forgot-password` },
+            { text: "POST /auth/reset-password/:resetPasswordToken", link: `${auth}/reset-password` },
+            { text: "POST /auth/resent-forgot-password", link: `${auth}/resent-forgot-password` },
           ]
         },
       ],
@@ -29,24 +35,36 @@ export const endpoints = {
       text: "User",
       collapsed: true,
       items: [
-        { text: "GET /user/profile/:id", link: "/endpoints/user/userById" },
-        { text: "GET /user/profile/public/:id", link: "/endpoints/user/publicUserById" },
-        { text: "DELETE /user/profile", link: "/endpoints/user/deleteUserProfile" },
-        { text: "POST /user/name", link: "/endpoints/user/postUserByName" },
-        { text: "PATCH /user/profile", link: "/endpoints/user/patchUserProfile" },
-        { text: "PATCH /user/settings", link: "/endpoints/user/patchUserSettings" },
-        { text: "", link: "/endpoints/user/" },
+        { text: "GET /user/profile/:id", link: `${user}/userById` },
+        { text: "GET /user/profile/public/:id", link: `${user}/publicUserById` },
+        { text: "DELETE /user/profile", link: `${user}/deleteUserProfile` },
+        { text: "POST /user/name", link: `${user}/postUserByName` },
+        { text: "PATCH /user/profile", link: `${user}/patchUserProfile` },
+        { text: "PATCH /user/settings", link: `${user}/patchUserSettings` },
+        { text: "", link: `${user}/` },
       ]
-
     },
     {
       text: "Tasks",
       collapsed: true,
       items: [
-        { text: "GET /task", link: "/endpoints/tasks/get-all-tasks" },
-        { text: "POST /task", link: "/endpoints/tasks/create-task" },
-        { text: "PATCH /task/:id", link: "/endpoints/tasks/update-task" }
+        { text: "GET /task", link: `${tasks}/get-all-tasks` },
+        { text: "POST /task", link: `${tasks}/create-task` },
+        { text: "PATCH /task/:id", link: `${tasks}/update-task` }
       ],
     },
+    {
+      text: "Organization",
+      collapsed: true,
+      items: [
+        {
+          text: "Members", items: [
+            { text: "POST /organization/members", link: `${member}/add-member` },
+            { text: "DELETE /organization/members", link: `${member}/delete-member` },
+            { text: "PATCH /organization/members/role", link: `${member}/update-member-role` }
+          ]
+        }
+      ]
+    }
   ],
 }

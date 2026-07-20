@@ -117,16 +117,31 @@ Member використовується у відповіді:
 
 ## Життєвий цикл
 
+Сутність UserOrganization створюється лише після успішного прийняття запрошення або Join Request.
+
+До цього моменту інформація про майбутнє членство зберігається в сутності `JoinRequest`.
+
+Життєвий цикл Member складається з таких етапів:
+
+1. існує JoinRequest зі статусом PENDING;
+2. після прийняття запиту створюється запис UserOrganization;
+3. користувач стає активним членом організації (ACTIVE);
+4. роль користувача може змінюватися без створення нового запису;
+5. при видаленні учасника запис UserOrganization фізично видаляється з бази даних.
+
 ```mermaid
 flowchart LR
 
-Invitation --> PENDING
-PENDING --> ACTIVE
-ACTIVE --> RoleChanged
-RoleChanged --> ACTIVE
-ACTIVE --> REMOVED
-```
+JR["JoinRequest<br/>status=PENDING"] -->|Join Request accepted| Create["Create UserOrganization"]
 
+Create --> Active["Member<br/>status=ACTIVE"]
+
+Active --> Role["Role changed"]
+
+Role --> Active
+
+Active --> Delete["Delete UserOrganization"]
+```
 ---
 
 ## Business Rules
@@ -139,7 +154,16 @@ ACTIVE --> REMOVED
 
 ### Створення
 
-Member створюється після успішного прийняття Join Request.
+Member створюється лише після успішного прийняття `JoinRequest`.
+
+Створення складається з двох окремих етапів:
+
+- створюється `JoinRequest` (запрошення або запит на вступ);
+- після зміни його статусу на `ACCEPTED` створюється запис `UserOrganization`.
+
+До моменту прийняття `Join Request` запис у таблиці `UserOrganization` не існує.
+
+Після створення членства користувачу створюється Notification, який повідомляє про успішне приєднання до організації.
 
 ---
 
@@ -167,8 +191,10 @@ Member створюється після успішного прийняття J
 Запрошення нового учасника:
 
 - дозволене ADMIN та MODERATOR;
-- MODERATOR не може запросити ADMIN;
-- якщо користувач уже є членом організації — повертається помилка.
+- `MODERATOR` не може запросити `ADMIN`;
+- якщо користувач уже є членом організації — повертається помилка;
+- створюється `JoinRequest` зі статусом `PENDING` і напрямком `FROM_ORGANIZATION`;
+- запрошеному користувачу створюється Notification про нове запрошення.
 
 ---
 
@@ -184,12 +210,12 @@ Member створюється після успішного прийняття J
 
 ## Використання в API
 
-| Endpoint                         | Призначення               |
-| -------------------------------- | ------------------------- |
-| POST /organization/members       | Запросити нового учасника |
-| DELETE /organization/members     | Видалити учасника         |
-| PATCH /organization/members/role | Змінити роль              |
-| GET /organization/:id            | Отримати список учасників |
+| Endpoint                                                                 | Призначення               |
+| ------------------------------------------------------------------------ | ------------------------- |
+| POST [/organization/members](/endpoints/member/add-member)               | Запросити нового учасника |
+| DELETE [/organization/members](/endpoints/member/delete-member)          | Видалити учасника         |
+| PATCH [/organization/members/role](/endpoints/member/update-member-role) | Змінити роль              |
+| GET /organization/:id                                                    | Отримати список учасників |
 
 ---
 
