@@ -48,12 +48,14 @@ JoinRequest використовується у двох сценаріях:
 
 ## Response DTO
 
-JoinRequest використовується у відповідях:
+JoinRequest використовується для представлення інформації про запит на вступ до організації або запрошення користувача.
 
-- POST /organization/join-request
-- PATCH /organization/join-request/status
-- GET /organization/:organizationId/join-requests
-- GET /organization/join-request/:id
+Повертається після:
+
+- створення JoinRequest;
+- отримання одного JoinRequest;
+- отримання списку Join Requests;
+- зміни статусу JoinRequest.
 
 ### JoinRequest
 
@@ -210,7 +212,7 @@ Cancel --> End
 
 ---
 
-## Використання в API
+## Пов'язані Endpoint'и
 
 | Endpoint                                                                                    | Призначення                            |
 | ------------------------------------------------------------------------------------------- | -------------------------------------- |
