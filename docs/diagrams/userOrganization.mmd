@@ -1,0 +1,22 @@
+erDiagram
+
+    User ||--o{ UserOrganization : belongs_to
+    Organization ||--o{ UserOrganization : contains
+
+    User {
+        string id PK
+    }
+
+    Organization {
+        string id PK
+        string name
+    }
+
+    UserOrganization {
+        string id PK
+        string userId FK
+        string organizationId FK
+        OrganizationRole role
+        MembershipStatus status
+        DateTime createdAt
+    }
