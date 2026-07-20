@@ -3,6 +3,7 @@ const user = "/endpoints/user"
 const tasks = "/endpoints/tasks"
 const organization = "/endpoints/organization"
 const member = "/endpoints/member"
+const request = "/endpoints/join-request"
 
 export const endpoints = {
   text: "Ендпоінти",
@@ -62,6 +63,14 @@ export const endpoints = {
             { text: "POST /organization/members", link: `${member}/add-member` },
             { text: "DELETE /organization/members", link: `${member}/delete-member` },
             { text: "PATCH /organization/members/role", link: `${member}/update-member-role` }
+          ]
+        },
+        {
+          text: "JoinRequests", items: [
+            { text: "POST /organization/join-request", link: `${request}/create-join-request` },
+            { text: "PATCH /organization/join-request/status", link: `${request}/update-request-status` },
+            { text: "GET /organization/:organizationId/join-requests", link: `${request}/get-org-requests` },
+            { text: "GET /organization/join-request/:id", link: `${request}/get-request-by-id` }
           ]
         }
       ]
