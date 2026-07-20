@@ -49,8 +49,13 @@ async function main() {
     const inputPath = path.resolve(inputDir, file);
 
     const lightOutput = path.resolve(outputDir, `${basename}-light.svg`);
-
     const darkOutput = path.resolve(outputDir, `${basename}-dark.svg`);
+
+    // Skip already generated diagrams
+    if (existsSync(lightOutput) && existsSync(darkOutput)) {
+      console.log(`Skipping ${basename} (already exists).`);
+      continue;
+    }
 
     const darkConfig = path.resolve("mermaid-dark.json");
 
@@ -62,7 +67,6 @@ async function main() {
       "-o",
       lightOutput,
       "-t",
-      // "default",
       "neutral",
     ]);
 
@@ -89,6 +93,7 @@ async function main() {
 
     await writeFile(darkOutput, fixedSvg);
   }
+
   // for (const file of mmdFiles) {
   //   const inputPath = path.resolve(inputDir, file);
   //   const outputPath = path.resolve(

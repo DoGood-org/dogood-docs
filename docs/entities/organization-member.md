@@ -33,14 +33,14 @@ Member не існує самостійно — він завжди належи
 
 ### UserOrganization
 
-| Поле           | Тип              | Обов'язкове | Опис                     |
-| -------------- | ---------------- | :---------: | ------------------------ |
-| id             | string           |      ✔      | UUID запису членства     |
-| userId         | string           |      ✔      | FK → User                |
-| organizationId | string           |      ✔      | FK → Organization        |
-| role           | OrganizationRole |      ✔      | Роль користувача         |
-| status         | MembershipStatus |      ✔      | Поточний статус членства |
-| createdAt      | DateTime         |      ✔      | Дата створення членства  |
+| Поле           | Тип                                                          | Обов'язкове | Опис                     |
+| -------------- | ------------------------------------------------------------ | :---------: | ------------------------ |
+| id             | string                                                       |      ✔      | UUID запису членства     |
+| userId         | string                                                       |      ✔      | FK → User                |
+| organizationId | string                                                       |      ✔      | FK → Organization        |
+| role           | [OrganizationRole](/constants/organization#orgaizationrole)  |      ✔      | Роль користувача         |
+| status         | [MembershipStatus](/constants/organization#membershipstatus) |      ✔      | Поточний статус членства |
+| createdAt      | DateTime                                                     |      ✔      | Дата створення членства  |
 
 ### Унікальні обмеження
 

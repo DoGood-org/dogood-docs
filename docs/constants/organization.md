@@ -16,3 +16,21 @@ enum MembershipStatus {
   PENDING
 }
 ```
+
+## JoinRequestStatus 
+```ts
+enum JoinRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  CANCELLED
+}
+```
+
+## JoinRequestDirection
+```ts
+enum JoinRequestDirection {
+  FROM_USER
+  FROM_ORGANIZATION
+}
+```

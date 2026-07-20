@@ -1,0 +1,21 @@
+erDiagram
+
+    User ||--o{ JoinRequest : "sender"
+    User ||--o{ JoinRequest : "receiver"
+
+    Organization ||--o{ JoinRequest : "sender organization"
+    Organization ||--o{ JoinRequest : "receiver organization"
+
+    JoinRequest ||--o{ Notification : "notifications"
+
+    JoinRequest {
+        string id PK
+        string senderId FK
+        string senderOrganizationId FK
+        string receiverOrganizationId FK
+        string receiverUserId FK
+        JoinRequestDirection direction
+        JoinRequestStatus status
+        datetime createdAt
+        datetime updatedAt
+    }
