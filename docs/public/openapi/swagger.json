@@ -1230,7 +1230,7 @@
         }
       }
     },
-    "/organization/members/invite": {
+    "/organization/members": {
       "post": {
         "tags": [
           "Members"
@@ -1254,6 +1254,52 @@
         "responses": {
           "201": {
             "description": "Invitation sent"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Remove a member from an organization (ADMIN/MODERATOR only)",
+        "description": "Removes a member from an organization. Only organization ADMIN or MODERATOR members are allowed to remove other members. The removed user will receive a notification.\n",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveMemberInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Member removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "userId or organizationId is missing or invalid"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "User does not have permission to remove members"
+          },
+          "404": {
+            "description": "Organization or member not found"
           }
         }
       }
@@ -1282,6 +1328,194 @@
         "responses": {
           "200": {
             "description": "Role updated"
+          }
+        }
+      }
+    },
+    "/organization/join-request": {
+      "post": {
+        "tags": [
+          "JoinRequest"
+        ],
+        "summary": "Create a join request or organization invitation",
+        "description": "Creates a new pending join request. Depending on the direction, this endpoint either allows a user to request joining an organization or allows an organization to invite a user.\n",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateJoinRequestInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Join request created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Join request already exists or request body is invalid"
+          },
+          "401": {
+            "description": "Authentication required"
+          }
+        }
+      }
+    },
+    "/organization/join-request/status": {
+      "patch": {
+        "tags": [
+          "JoinRequest"
+        ],
+        "summary": "Update join request status",
+        "description": "Updates the status of a pending join request. Depending on the request direction, only organization staff (ADMIN or MODERATOR) or the invited user may perform this action.\n",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateJoinRequestStatusInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Join request updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Join request already processed or invalid request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "User does not have permission to update this request"
+          },
+          "404": {
+            "description": "Join request not found"
+          }
+        }
+      }
+    },
+    "/organization/{organizationId}/join-requests": {
+      "get": {
+        "tags": [
+          "JoinRequest"
+        ],
+        "summary": "Get pending join requests for an organization",
+        "description": "Returns all pending join requests for the specified organization. Accessible only to organization ADMIN and MODERATOR members.\n",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organizationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Join requests retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinRequestListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Organization ID is missing"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "User is not allowed to view organization join requests"
+          },
+          "404": {
+            "description": "Organization not found"
+          }
+        }
+      }
+    },
+    "/organization/join-request/{id}": {
+      "get": {
+        "tags": [
+          "JoinRequest"
+        ],
+        "summary": "Get join request by ID",
+        "description": "Returns a pending join request. Accessible to the request sender or organization staff.\n",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Join request retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Join request already processed or invalid ID"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "User does not have permission to view this request"
+          },
+          "404": {
+            "description": "Join request not found"
           }
         }
       }
@@ -3356,6 +3590,21 @@
           }
         }
       },
+      "OperationSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
       "OrganizationListResponse": {
         "allOf": [
           {
@@ -3672,6 +3921,25 @@
           }
         }
       },
+      "RemoveMemberInput": {
+        "type": "object",
+        "required": [
+          "userId",
+          "organizationId"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ID of the member to remove."
+          },
+          "organizationId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ID of the organization."
+          }
+        }
+      },
       "UpdateRoleInput": {
         "type": "object",
         "required": [
@@ -3696,6 +3964,187 @@
             ]
           }
         }
+      },
+      "JoinRequestSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "senderId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "senderOrganizationId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "receiverOrganizationId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "receiverUserId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACCEPTED",
+              "REJECTED",
+              "CANCELLED"
+            ]
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "FROM_USER",
+              "FROM_ORGANIZATION"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sender": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "senderOrganization": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "receiverOrganization": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "receiverUser": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "CreateJoinRequestInput": {
+        "type": "object",
+        "required": [
+          "direction"
+        ],
+        "properties": {
+          "receiverOrganizationId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "Required when direction is FROM_USER."
+          },
+          "receiverUserId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "Required when direction is FROM_ORGANIZATION."
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "FROM_USER",
+              "FROM_ORGANIZATION"
+            ]
+          }
+        }
+      },
+      "UpdateJoinRequestStatusInput": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACCEPTED",
+              "REJECTED",
+              "CANCELLED"
+            ]
+          }
+        }
+      },
+      "JoinRequestResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "joinRequest": {
+                    "$ref": "#/components/schemas/JoinRequestSchema"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "JoinRequestListResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "joinRequests": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/JoinRequestSchema"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
       },
       "CreatePostInput": {
         "type": "object",
