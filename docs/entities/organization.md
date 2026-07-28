@@ -204,7 +204,7 @@ Active --> Delete["Delete Organization"]
 ## Пов'язані сутності
 
 - [User](user)
-- [UserOrganization](organiation-member)
+- [UserOrganization](organization-member)
 - [JoinRequest](join-request)
 - Host
 - [Location](location)
