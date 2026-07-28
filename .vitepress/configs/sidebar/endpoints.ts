@@ -58,6 +58,11 @@ export const endpoints = {
       text: "Organization",
       collapsed: true,
       items: [
+        { text: "POST /organization/create", link: `${organization}/create-organization` },
+        { text: "GET /organization", link: `${organization}/get-organizations` },
+        { text: "GET /organization/:id", link: `${organization}/get-organization` },
+        { text: "PATCH /organization/:id", link: `${organization}/update-organization` },
+        { text: "DELETE /organization/:id", link: `${organization}/delete-organization` },
         {
           text: "Members", items: [
             { text: "POST /organization/members", link: `${member}/add-member` },

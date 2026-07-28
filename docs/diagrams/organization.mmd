@@ -1,0 +1,66 @@
+erDiagram
+
+    Organization {
+        string id PK
+        string name
+        string phoneNumber
+        string email
+        string description
+        string moreInfo
+        string avatar
+        string stripeCustomerId
+        int locationId FK
+        datetime createdAt
+    }
+
+    Location {
+        int id PK
+        string country
+        string region
+        string city
+    }
+
+    UserOrganization {
+        string id PK
+        string userId FK
+        string organizationId FK
+        OrganizationRole role
+        MembershipStatus status
+        datetime createdAt
+    }
+
+    JoinRequest {
+        string id PK
+        string senderOrganizationId FK
+        string receiverOrganizationId FK
+        JoinRequestStatus status
+        JoinRequestDirection direction
+    }
+
+    Host {
+        int id PK
+        HostType type
+        string organizationId FK
+    }
+
+    Review {
+        int id PK
+    }
+
+    Task {
+        string id PK
+    }
+
+    Location ||--o{ Organization : location
+
+    Organization ||--o{ UserOrganization : members
+
+    Organization ||--|| Host : hostProfile
+
+    Organization ||--o{ JoinRequest : sent
+    Organization ||--o{ JoinRequest : received
+
+    Organization ||--o{ Review : reviewsReceived
+    Organization ||--o{ Review : reviewsWritten
+
+    Host ||--o{ Task : tasks

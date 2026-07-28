@@ -15,6 +15,7 @@ export const entities = {
     // { text: "Organization", link: "/entities/organization" },
     {
       text: 'Organization-entities', collapsed: true, items: [
+        { text: "Organization", link: "/entities/organization" },
         { text: 'UserOrganization', link: "/entities/organization-member" },
         { text: 'JoinRequest', link: "/entities/join-request" }
       ]
