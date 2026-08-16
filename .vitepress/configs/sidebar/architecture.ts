@@ -3,7 +3,8 @@ export const architecture = {
   items: [
     { text: "Overview", link: "/architecture/overview" },
     { text: "DTO and Models", link: "/architecture/dto-and-models" },
-    { text: "Authentication and Session Flow", link: "/architecture/authentication-and-session-flow" }
+    { text: "Authentication and Session Flow", link: "/architecture/authentication-and-session-flow" },
+    { text: "Organization Authorization (RBAC)", link: "/arhitecture/organization-rbac" }
     // {
     //   text: "Frontend ↔ Backend Flow",
     //   link: "/architecture/frontend-backend-flow",

@@ -1,5 +1,6 @@
 const componentsURL = "/frontend/components";
 const stylesURL = '/frontend/styles';
+const hooks = '/frontend/hooks';
 
 export const frontend = [
   {
@@ -34,6 +35,13 @@ export const frontend = [
           { text: "Colors", link: `${stylesURL}/colors` },
           { text: "Text", link: `${stylesURL}/text` },
           { text: "Radius", link: `${stylesURL}/radius` }
+        ]
+      },
+      {
+        text: "Hooks",
+        collapsed: true,
+        items: [
+          { text: "useClickOutside", link: `${hooks}/useClickOutside` }
         ]
       }
     ]
