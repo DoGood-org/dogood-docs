@@ -2825,6 +2825,22 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Невалідний запит (поле 'rejectionReason' є обов'язковим або не може бути порожнім)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Поле 'rejectionReason' є обов'язковим і не може бути порожнім"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -5016,6 +5032,10 @@
         "properties": {
           "status": {
             "$ref": "#/components/schemas/TaskStatus"
+          },
+          "rejectionReason": {
+            "type": "string",
+            "description": "Причина відхилення/скасування (обов'язкова, не може бути порожньою)"
           }
         }
       },
@@ -5149,6 +5169,10 @@
           },
           "status": {
             "$ref": "#/components/schemas/TaskStatus"
+          },
+          "rejectionReason": {
+            "type": "string",
+            "nullable": true
           },
           "amount": {
             "type": "number",
